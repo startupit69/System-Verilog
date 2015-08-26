@@ -1,4 +1,4 @@
-#ECE411
-##MP0
-Implement the LC3-b(alpha) in System Verilog. 
+#Computer Organization and Design
+###MP0
+Design, implement, and simulate a non-pipelined processor that uses the LC3-b(alpha) ISA in System Verilog.
  

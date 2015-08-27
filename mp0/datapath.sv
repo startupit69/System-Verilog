@@ -113,4 +113,20 @@ nzp_cmp ccc_comp
 );
 
 
+ir ir
+(
+    .clk(clk),
+    .load(load_ir),
+    .in(mem_wdata),
+    .opcode(),
+    .dest(),
+    .src1(),
+    .src2(),
+    .offset6(),
+    .offset9(),
+);
+
+
+
+
 endmodule : datapath

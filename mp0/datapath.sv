@@ -19,6 +19,7 @@ module datapath
     input regfilemux_sel,
     input marmux_sel,
     input mdrmux_sel,
+	 input opcode,
 
     /* declare more ports here */
     lc3b_word mem_rdata
@@ -30,6 +31,8 @@ lc3b_word pc_out;
 lc3b_word br_add_out;
 lc3b_word pc_plus2_out;
 lc3b_word mem_wdata;
+lc3b_word adj9_out;
+lc3b_word adj6_out;
 
 lc3b_word regfilemux_out;
 lc3b_word alu_out;
@@ -76,7 +79,7 @@ regfile regfile
     .clk(clk),
     .load(load_regfile),
     .in(regfilemux_out),
-    .src_a(sr1),
+    .src_a(storemux_out),
     .src_b(sr2),
     .dest(dest),
     .reg_a(sr1_out),
@@ -112,21 +115,45 @@ nzp_cmp ccc_comp
     .branch_enable(branch_enable)   
 );
 
-
 ir ir
 (
     .clk(clk),
     .load(load_ir),
     .in(mem_wdata),
-    .opcode(),
-    .dest(),
-    .src1(),
-    .src2(),
-    .offset6(),
-    .offset9(),
+    .opcode(opcode),
+    .dest(dest),
+    .src1(src1),
+    .src2(sr2),
+    .offset6(offset6),
+    .offset9(offset9),
 );
 
+adj9 #(.width(9))adj9
+(
+    .in(offset9),
+    .out(adj9_out)
+);
 
+br_add br_add
+(
+    .pc_out(pc_out),
+    .adj9_out(adj9_out),
+    .br_add_out(br_add_out)
+);
+
+plus2 plus2
+(
+    .in(pc_out),
+    .out(pc_plus2_out)
+);
+
+mux2 marmux
+(
+    .sel(),
+    .a(),
+    .b(),
+    .f()
+);
 
 
 endmodule : datapath

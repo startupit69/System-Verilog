@@ -7,7 +7,7 @@ import lc3b_types::*;
  * Outputs: br_add_out - address computed
  */
  
-module br_add
+module br_adder
 (
 	input lc3b_word pc_out,
 	input adj9_out adj9, 
@@ -19,4 +19,4 @@ begin
 	/* PC←PC + SEXT(IR[8:0] « 1); */
 	pc_out = pc_out + $signed(adj9);
 end
-endmodule:br_add
+endmodule:br_adder

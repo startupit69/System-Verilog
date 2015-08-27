@@ -13,8 +13,4 @@ module sext #(parameter width = 16)
 	output lc3b_word out
 );
 
-always_comb
-begin 
-	out <= $signed(in);
-end
-endmodule:sext
+assign out = {16-width-1{in[width-1]}, in[width-1:0]};

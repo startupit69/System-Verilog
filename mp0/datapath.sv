@@ -19,7 +19,7 @@ module datapath
     input regfilemux_sel,
     input marmux_sel,
     input mdrmux_sel,
-	 input opcode,
+	input opcode,
 
     /* declare more ports here */
     lc3b_word mem_rdata
@@ -33,6 +33,9 @@ lc3b_word pc_plus2_out;
 lc3b_word mem_wdata;
 lc3b_word adj9_out;
 lc3b_word adj6_out;
+lc3b_word marmux_out;
+lc3b_word mem_address;
+lc3b_word mdrmux_out;
 
 lc3b_word regfilemux_out;
 lc3b_word alu_out;
@@ -42,6 +45,8 @@ lc3b_nzp cc_out;
 lc3b_reg sr1;
 lc3b_reg dest;
 lc3b_reg storemux_out;
+
+
 
 logic br_enable;
 
@@ -149,11 +154,53 @@ plus2 plus2
 
 mux2 marmux
 (
-    .sel(),
+    .sel(marmux_sel),
+    .a(pc_out),
+    .b(alu_out),
+    .f(marmux_out)
+);
+
+register #(parameter width = 16) mar
+(
+    .clk(clk),
+    .load(load_mar),
+    .in(marmux_out),
+    .out(mem_address)
+);
+
+mux2 mdrmax
+(
+    .sel(mdrmux_sel),
+    .a(mem_rdata),
+    .b(alu_out),
+    .f(mdrmux_out)
+);
+
+register #(parameter width = 16) mdr
+(
+    .clk(clk),
+    .load(load_mdr),
+    .in(mdrmux_out),
+    .out(mem_wdata)
+);
+
+
+mux2 alumux
+(
+    .sel(alumux_sel),
+    .a(sr2_out),
+    .b(adj6_out),
+    .f(alumux_out)
+);
+
+alu alu
+(
+    .aluop(),
     .a(),
     .b(),
     .f()
 );
+
 
 
 endmodule : datapath

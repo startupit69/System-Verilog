@@ -9,17 +9,14 @@ import lc3b_types::*;
  */
 module nzp_cmp()
 (
-	input lc3b_word word_to_cmp,
-	input logic n, z, p,
+	input lc3b_nzp nzp_cc,
+	input lc3b_nzp nzp_br,
 	output br
 );
 
 always_comb
 begin 
-	if((n == 1 and word_to_cmp[15] == 1) or 
-		(z == 1 and word_to_cmp == 0'16b) or 
-		(p == 1 and word_to_cmp[15] == 0))
-	{
+	if(nzp_cc & nzp_br)
 		br = 1;
 	}else{
 		br = 0;

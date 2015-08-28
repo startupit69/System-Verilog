@@ -195,10 +195,10 @@ mux2 alumux
 
 alu alu
 (
-    .aluop(),
-    .a(),
-    .b(),
-    .f()
+    .aluop(aluop),
+    .a(sr1_out),
+    .b(alumux_out),
+    .f(alu_out)
 );
 
 

@@ -9,14 +9,13 @@ import lc3b_types::*;
  
 module br_adder
 (
-	input lc3b_word pc_out,
-	input adj9_out adj9, 
-	output lc3b_word br_add_out
+	input lc3b_word pc_in, pc_offset,
+	output lc3b_word pc_out
 );
 
 always_comb
 begin
 	/* PC←PC + SEXT(IR[8:0] « 1); */
-	pc_out = pc_out + $signed(adj9);
+	pc_out = pc_in + pc_offset;
 end
 endmodule:br_adder

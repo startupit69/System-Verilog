@@ -7,7 +7,7 @@ import lc3b_types::*;
  * 			p - positive flag
  * Outputs: br - branch enable output
  */
-module nzp_cmp()
+module nzp_cmp
 (
 	input lc3b_nzp nzp_cc,
 	input lc3b_nzp nzp_br,
@@ -18,9 +18,8 @@ always_comb
 begin 
 	if(nzp_cc & nzp_br)
 		br = 1;
-	}else{
+	else
 		br = 0;
-	}
 end
 endmodule:nzp_cmp
 	

@@ -13,43 +13,52 @@ module datapath
     input load_mar,
     input load_mdr,
     input load_cc,
-    input pcmux_sel,
-    input storemux_sel,
     input alumux_sel,
     input regfilemux_sel,
     input marmux_sel,
     input mdrmux_sel,
-	input opcode,
-    input aluop,
+    input lc3b_aluop aluop,
 
     /* declare more ports here */
-    lc3b_word mem_rdata
+    input lc3b_word mem_rdata,
+	 
+	 /* outputs */
+	 output lc3b_opcode opcode,
+	 output lc3b_word mem_address,
+	 output lc3b_word mem_wdata,
+	 output logic branch_enable
 );
 
 /* declare internal signals */
-lc3b_word pcmux_out;
-lc3b_word pc_out;
-lc3b_word br_add_out;
-lc3b_word pc_plus2_out;
-lc3b_word mem_wdata;
-lc3b_word adj9_out;
-lc3b_word adj6_out;
-lc3b_word marmux_out;
-lc3b_word mem_address;
-lc3b_word mdrmux_out;
+	lc3b_word pcmux_out;
+	lc3b_word pc_out;
+	lc3b_word br_add_out;
+	lc3b_word pc_plus2_out;
+	lc3b_word adj9_out;
+	lc3b_word adj6_out;
+	lc3b_word marmux_out;
+	
+	lc3b_word mdrmux_out;
+	lc3b_word sr1_out;
+	lc3b_word sr2_out;
+	lc3b_word alumux_out;
 
-lc3b_word regfilemux_out;
-lc3b_word alu_out;
-lc3b_nzp gencc_out;
-lc3b_nzp cc_out;
+	lc3b_offset6 offset6;
+	lc3b_offset9 offset9;
 
-lc3b_reg sr1;
-lc3b_reg dest;
-lc3b_reg storemux_out;
+	lc3b_word regfilemux_out;
+	lc3b_word alu_out;
+	lc3b_nzp gencc_out;
+	lc3b_nzp cc_out;
+
+	lc3b_reg sr1;
+	lc3b_reg sr2;
+	lc3b_reg dest;
+	lc3b_reg storemux_out;
 
 
 
-logic br_enable;
+	logic br_enable;
 
 
 /*
@@ -92,7 +101,7 @@ regfile regfile
     .reg_b(sr2_out)
 );
 
-mux2 #(.width(16))regfilemux_out
+mux2 #(.width(16))regfilemux
 (
     .sel(regfilemux_sel),
     .a(alu_out),
@@ -102,11 +111,11 @@ mux2 #(.width(16))regfilemux_out
 
 gencc gencc
 (
-    .input(regfilemux_out),
-    .output(gencc_out)
+    .in(regfilemux_out),
+    .out(gencc_out)
 );
 
-register #(parameter width = 16) cc 
+register #(.width(16)) cc 
 (
     .clk(clk),
     .load(load_cc),
@@ -117,8 +126,8 @@ register #(parameter width = 16) cc
 nzp_cmp ccc_comp
 (
     .nzp_cc(cc_out),
-    .nzp_to_cmp(dest),
-    .branch_enable(branch_enable)   
+    .nzp_br(dest),
+    .br(branch_enable)   
 );
 
 ir ir
@@ -128,13 +137,13 @@ ir ir
     .in(mem_wdata),
     .opcode(opcode),
     .dest(dest),
-    .src1(src1),
+    .src1(sr1),
     .src2(sr2),
     .offset6(offset6),
-    .offset9(offset9),
+    .offset9(offset9)
 );
 
-adj9 #(.width(9))adj9
+adj #(.width(9))adj9
 (
     .in(offset9),
     .out(adj9_out)
@@ -161,7 +170,7 @@ mux2 marmux
     .f(marmux_out)
 );
 
-register #(parameter width = 16) mar
+register #(.width(16)) mar
 (
     .clk(clk),
     .load(load_mar),
@@ -177,7 +186,7 @@ mux2 mdrmax
     .f(mdrmux_out)
 );
 
-register #(parameter width = 16) mdr
+register #(.width(16)) mdr
 (
     .clk(clk),
     .load(load_mdr),

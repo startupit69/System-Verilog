@@ -29,10 +29,10 @@ module control
 	/* Control to Memory */
 	output logic mem_read,
 	output logic mem_write,
-	output lc3b_mem_wmask mem_byte_enable
+	output lc3b_mem_wmask mem_byte_enable,
 
 	/* Memory to Control */
-	input mem_resp,
+	input mem_resp
 );
 
 enum int unsigned {
@@ -52,7 +52,7 @@ enum int unsigned {
     s_str1,
     s_str2
 
-} state, next_states;
+} state, next_state;
 
 always_comb
 begin : state_actions
@@ -96,7 +96,7 @@ begin : state_actions
      			/* Load IR */
      			load_ir = 1;
      		end
-     		decode: /* do nothing */
+     		decode: /* do nothing */;
 
      		s_add:begin
      			/* state for add */
@@ -157,11 +157,13 @@ begin : state_actions
      			mem_write = 1;
      		end 
 
-     		default: /*do nothing */
+     		default: /*do nothing */;
+		endcase
 end
 
 always_comb
 begin : next_state_logic
+		next_state = state;
     /* Next state information and conditions (if any)
      * for transitioning between states */
      case(state)
@@ -171,21 +173,11 @@ begin : next_state_logic
    		decode:begin
    			case(opcode)
    				op_add:next_state = s_add;
-				op_and:next_state = s_and;
-				op_br: next_state = s_br;
-				op_jmp:next_state = s_jmp; 
-				op_jsr:next_state = s_jsr;
-				op_ldb:next_state = s_ldb;
-				op_ldi:next_state = s_ldi;
-				op_ldr:next_state = calc_addr;
-				op_lea:next_state = s_lea;
-				op_not:next_state = s_not;
-				op_rti:next_state = s_rti;
-				op_shf:next_state = s_shf;
-				op_stb:next_state = s_stb;
-				op_sti:next_state = s_sti;
-				op_str:next_state = calc_addr;
-				op_trap:next_state = s_trap;
+					op_and:next_state = s_and;
+					op_ldr:next_state = calc_addr;
+					op_not:next_state = s_not;
+					op_str:next_state = calc_addr;
+				endcase
    		end
    		s_add:next_state = fetch1;
    		s_and:next_state = fetch1;
@@ -207,6 +199,7 @@ begin : next_state_logic
    		s_ldr2:next_state = fetch1;
    		s_str1:next_state = s_str2;
    		s_str2:if(mem_resp) next_state = fetch1;
+		endcase
 end
 
 always_ff @(posedge clk)

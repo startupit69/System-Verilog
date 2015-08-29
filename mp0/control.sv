@@ -4,7 +4,7 @@ module control
 (
     /* Input and output port declarations */
     input clk,
-    input mem_rdata,
+    input lc3b_word mem_rdata,
 
 
     /* Control to Datapath */
@@ -124,7 +124,7 @@ begin : state_actions
      			load_cc = 1;
      		end
 
-     		s_br:/*do nothing */ 
+     		s_br:/*do nothing */ ;
      		s_br_taken:begin
      			pcmux_sel = 1;
      			load_pc = 1;	
@@ -177,6 +177,8 @@ begin : next_state_logic
 					op_ldr:next_state = calc_addr;
 					op_not:next_state = s_not;
 					op_str:next_state = calc_addr;
+					op_br:next_state = s_br;
+					default: /* do nothing */; 
 				endcase
    		end
    		s_add:next_state = fetch1;

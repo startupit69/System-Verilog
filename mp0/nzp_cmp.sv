@@ -11,7 +11,7 @@ module nzp_cmp
 (
 	input lc3b_nzp nzp_cc,
 	input lc3b_nzp nzp_br,
-	output br
+	output logic br
 );
 
 always_comb

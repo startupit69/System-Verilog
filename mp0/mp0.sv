@@ -56,7 +56,8 @@ datapath datapath
 	.aluop(aluop),
 	.mem_rdata(mem_rdata),
 	.mem_wdata(mem_wdata),
-	.mem_address(mem_address)
+	.mem_address(mem_address),
+	.branch_enable(branch_enable)
 );
 
 control control
@@ -79,8 +80,9 @@ control control
 	.mem_rdata(mem_rdata),
 	.mem_byte_enable(mem_byte_enable),
 	.mem_read(mem_read),
-	.mem_write(mem_write)
-	
+	.mem_write(mem_write),
+	.mem_resp(mem_resp),
+	.branch_enable(branch_enable)
 );
 
 endmodule : mp0

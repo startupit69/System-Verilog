@@ -58,8 +58,6 @@ module datapath
 
 
 
-	logic br_enable;
-
 
 /*
  * PC
@@ -115,7 +113,7 @@ gencc gencc
     .out(gencc_out)
 );
 
-register #(.width(16)) cc 
+register #(.width(3)) cc 
 (
     .clk(clk),
     .load(load_cc),
@@ -149,6 +147,12 @@ adj #(.width(9))adj9
     .out(adj9_out)
 );
 
+adj #(.width(6)) adj6
+(
+	.in(offset6),
+	.out(adj6_out)
+);
+
 br_add br_add
 (
     .pc_out(pc_out),
@@ -165,8 +169,8 @@ plus2 plus2
 mux2 marmux
 (
     .sel(marmux_sel),
-    .a(pc_out),
-    .b(alu_out),
+    .a(alu_out),
+    .b(pc_out),
     .f(marmux_out)
 );
 
@@ -181,8 +185,8 @@ register #(.width(16)) mar
 mux2 mdrmax
 (
     .sel(mdrmux_sel),
-    .a(mem_rdata),
-    .b(alu_out),
+    .a(alu_out),
+    .b(mem_rdata),
     .f(mdrmux_out)
 );
 

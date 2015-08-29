@@ -20,6 +20,7 @@ module datapath
     input marmux_sel,
     input mdrmux_sel,
 	input opcode,
+    input aluop,
 
     /* declare more ports here */
     lc3b_word mem_rdata

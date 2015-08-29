@@ -4,7 +4,7 @@ module control
 (
     /* Input and output port declarations */
     input clk,
-    input lc3b_word mem_rdata,
+    input mem_rdata,
 
 
     /* Control to Datapath */

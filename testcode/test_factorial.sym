@@ -1,0 +1,11 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	OUTLOOP           3003
+//	INLOOP            3004
+//	FIVE              300D
+//	NEGONE            300E
+//	ZERO              300F
+//	COMPLETE          3010
+

@@ -8,18 +8,19 @@ add wave -noupdate -label mem_rdata /mp0_tb/mem_rdata
 add wave -noupdate -label mem_write /mp0_tb/mem_write
 add wave -noupdate -label mem_byte_enable /mp0_tb/mem_byte_enable
 add wave -noupdate -label mem_wdata /mp0_tb/mem_wdata
-add wave -noupdate /mp0_tb/dut/datapath/regfile/load
-add wave -noupdate /mp0_tb/dut/datapath/regfile/in
-add wave -noupdate /mp0_tb/dut/datapath/regfile/src_a
-add wave -noupdate /mp0_tb/dut/datapath/regfile/src_b
-add wave -noupdate /mp0_tb/dut/datapath/regfile/dest
-add wave -noupdate /mp0_tb/dut/datapath/regfile/reg_a
-add wave -noupdate /mp0_tb/dut/datapath/regfile/reg_b
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[7]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[6]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[5]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[4]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[3]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[2]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[1]}
+add wave -noupdate {/mp0_tb/dut/datapath/regfile/data[0]}
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ps} 0}
+WaveRestoreCursors {{Cursor 1} {137576 ps} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 294
-configure wave -valuecolwidth 100
+configure wave -namecolwidth 333
+configure wave -valuecolwidth 59
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -32,4 +33,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {868620 ps}
+WaveRestoreZoom {0 ps} {503368 ps}

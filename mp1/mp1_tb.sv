@@ -28,12 +28,12 @@ mp1 dut
     .mem_wdata
 );
 
-magic_memory memory
+memory memory
 (
     .clk,
     .read(mem_read),
     .write(mem_write),
-    .wmask(mem_byte_enable),
+    .byte_enable(mem_byte_enable),
     .address(mem_address),
     .wdata(mem_wdata),
     .resp(mem_resp),

@@ -35,6 +35,8 @@ module mp1
 	/* Datapath to Control */
 	lc3b_opcode opcode;
 	logic branch_enable;
+	logic imm5_enable;
+	logic imm11_enable;
 
 /* Instantiate MP 0 top level blocks here */
 datapath datapath
@@ -57,7 +59,9 @@ datapath datapath
 	.mem_rdata(mem_rdata),
 	.mem_wdata(mem_wdata),
 	.mem_address(mem_address),
-	.branch_enable(branch_enable)
+	.branch_enable(branch_enable),
+	.imm5_enable(imm5_enable),
+	.imm11_enable(imm11_enable)
 );
 
 control control
@@ -82,7 +86,9 @@ control control
 	.mem_read(mem_read),
 	.mem_write(mem_write),
 	.mem_resp(mem_resp),
-	.branch_enable(branch_enable)
+	.branch_enable(branch_enable),
+	.imm5_enable(imm5_enable),
+	.imm11_enable(imm11_enable)
 );
 
 endmodule : mp1

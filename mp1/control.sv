@@ -25,6 +25,8 @@ module control
     /* Datapath to Control */
 	input logic branch_enable,
 	input lc3b_opcode opcode,
+    input logic imm5_enable,
+    input logic imm11_enable,
 
 	/* Control to Memory */
 	output logic mem_read,
@@ -42,7 +44,9 @@ enum int unsigned {
     fetch3,
     decode,
     s_add,
+    s_add_imm,
     s_and,
+    s_and_imm,
     s_not,
     s_br,
     s_br_taken,
@@ -103,7 +107,7 @@ begin : state_actions
      			/* DR <= SRA + SRB */
      			aluop = alu_add;
      			load_regfile = 1;
-     			regfilemux_sel = 0;
+     			regfilemux_sel = imm5_enable;
      			load_cc = 1;
      		end
 
@@ -112,7 +116,7 @@ begin : state_actions
      			/* DR <= SRA AND SRB */
      			aluop = alu_and;
      			load_regfile = 1;
-     			regfilemux_sel = 0;
+     			regfilemux_sel = imm5_enable;
      			load_cc = 1;
      		end
 
@@ -173,13 +177,13 @@ begin : next_state_logic
    		decode:begin
    			case(opcode)
    				op_add:next_state = s_add;
-					op_and:next_state = s_and;
-					op_ldr:next_state = calc_addr;
-					op_not:next_state = s_not;
-					op_str:next_state = calc_addr;
-					op_br:next_state = s_br;
-					default: /* do nothing */; 
-				endcase
+				op_and:next_state = s_and;
+				op_ldr:next_state = calc_addr;
+				op_not:next_state = s_not;
+				op_str:next_state = calc_addr;
+				op_br:next_state = s_br;
+				default: /* do nothing */; 
+			endcase
    		end
    		s_add:next_state = fetch1;
    		s_and:next_state = fetch1;

@@ -8,7 +8,10 @@ module ir
     output lc3b_opcode opcode,
     output lc3b_reg dest, src1, src2,
     output lc3b_offset6 offset6,
-    output lc3b_offset9 offset9
+    output lc3b_offset9 offset9,
+    output lc3b_offset11 offset11,
+    output logic imm5_enable,
+    output logic imm11_enable
 );
 
 lc3b_word data;
@@ -31,6 +34,10 @@ begin
 
     offset6 = data[5:0];
     offset9 = data[8:0];
+    offset11 = data[10:0];
+    imm5_enable = data[5];
+    imm11_enable = data[11];
+
 end
 
 endmodule : ir

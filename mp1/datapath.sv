@@ -26,7 +26,10 @@ module datapath
 	 output lc3b_opcode opcode,
 	 output lc3b_word mem_address,
 	 output lc3b_word mem_wdata,
-	 output logic branch_enable
+	 output logic branch_enable,
+     output logic imm5_enable,
+     output logic imm11_enable
+
 );
 
 /* declare internal signals */
@@ -45,6 +48,7 @@ module datapath
 
 	lc3b_offset6 offset6;
 	lc3b_offset9 offset9;
+    lc3b_offset11 offset11;
 
 	lc3b_word regfilemux_out;
 	lc3b_word alu_out;
@@ -138,7 +142,10 @@ ir ir
     .src1(sr1),
     .src2(sr2),
     .offset6(offset6),
-    .offset9(offset9)
+    .offset9(offset9),
+    .offset11(offset11),
+    .imm5_enable(imm5_enable),
+    .imm11_enable(imm11_enable)
 );
 
 adj #(.width(9))adj9

@@ -19,7 +19,7 @@ module control
     output logic regfilemux_sel,
     output logic marmux_sel,
     output logic mdrmux_sel,
-    output logic alumux_sel,
+    output lc3b_sel4mux alumux_sel,
     output lc3b_aluop aluop,
 
     /* Datapath to Control */
@@ -70,7 +70,7 @@ begin : state_actions
     load_cc = 1'b0;
     pcmux_sel = 1'b0;
     storemux_sel = 1'b0;
-    alumux_sel = 1'b0;
+    alumux_sel = 2'b00;
     regfilemux_sel = 1'b0;
     marmux_sel = 1'b0;
     mdrmux_sel = 1'b0;
@@ -107,8 +107,10 @@ begin : state_actions
      			/* DR <= SRA + SRB */
      			aluop = alu_add;
      			load_regfile = 1;
-     			regfilemux_sel = imm5_enable;
+     			regfilemux_sel = 1;
      			load_cc = 1;
+                if(imm5_enable)
+                    alumux_sel = 2'b10;
      		end
 
      		s_and:begin
@@ -116,8 +118,10 @@ begin : state_actions
      			/* DR <= SRA AND SRB */
      			aluop = alu_and;
      			load_regfile = 1;
-     			regfilemux_sel = imm5_enable;
+                regfilemux_sel = 1;
      			load_cc = 1;
+                if(imm5_enable)
+                    alumux_sel = 2'b10;
      		end
 
      		s_not:begin
@@ -135,7 +139,7 @@ begin : state_actions
      		end
 
      		calc_addr:begin
-     			alumux_sel = 1;
+     			alumux_sel = 2'b01;
      			aluop = alu_add;
      			load_mar = 1;
      		end

@@ -13,7 +13,7 @@ module datapath
     input load_mar,
     input load_mdr,
     input load_cc,
-    input alumux_sel,
+    input lc3b_sel4mux alumux_sel,
     input regfilemux_sel,
     input marmux_sel,
     input mdrmux_sel,
@@ -40,6 +40,7 @@ module datapath
 	lc3b_word adj9_out;
 	lc3b_word adj6_out;
 	lc3b_word marmux_out;
+    lc3b_word imm5_sext_out;
 	
 	lc3b_word mdrmux_out;
 	lc3b_word sr1_out;
@@ -48,7 +49,9 @@ module datapath
 
 	lc3b_offset6 offset6;
 	lc3b_offset9 offset9;
-    lc3b_offset11 offset11;
+
+    lc3b_imm11 imm11;
+    lc3b_imm5 imm5;
 
 	lc3b_word regfilemux_out;
 	lc3b_word alu_out;
@@ -143,7 +146,8 @@ ir ir
     .src2(sr2),
     .offset6(offset6),
     .offset9(offset9),
-    .offset11(offset11),
+    .imm5(imm5),
+    .imm11(imm11),
     .imm5_enable(imm5_enable),
     .imm11_enable(imm11_enable)
 );
@@ -158,6 +162,12 @@ adj #(.width(6)) adj6
 (
 	.in(offset6),
 	.out(adj6_out)
+);
+
+sext #(.width(5)) imm5_sext
+(
+    .in(imm5),
+    .out(imm5_sext_out)
 );
 
 br_add br_add
@@ -211,6 +221,8 @@ mux2 alumux
     .sel(alumux_sel),
     .a(sr2_out),
     .b(adj6_out),
+    .c(imm5_sext_out),
+    .d(16'b0),
     .f(alumux_out)
 );
 

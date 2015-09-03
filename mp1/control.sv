@@ -14,7 +14,7 @@ module control
     output logic load_mar,
     output logic load_mdr,
     output logic load_cc,
-    output logic pcmux_sel,
+    output lc3b_sel4mux pcmux_sel,
     output logic storemux_sel,
     output logic regfilemux_sel,
     output logic marmux_sel,
@@ -68,7 +68,7 @@ begin : state_actions
    	load_mar = 1'b0;
   	load_mdr = 1'b0;
     load_cc = 1'b0;
-    pcmux_sel = 1'b0;
+    pcmux_sel = 1'b00;
     storemux_sel = 1'b0;
     alumux_sel = 2'b00;
     regfilemux_sel = 1'b0;
@@ -165,6 +165,18 @@ begin : state_actions
      			mem_write = 1;
      		end 
 
+            /* mp1.1 states */
+            s_jmp:begin
+                //todo
+                pcmux_sel = 2'b10;
+                load_pc = 1;
+                storemux_sel = 1'b0;
+            end
+
+            s_jsr:begin
+                //todo
+            end
+
      		default: /*do nothing */;
 		endcase
 end
@@ -186,12 +198,15 @@ begin : next_state_logic
 				op_not:next_state = s_not;
 				op_str:next_state = calc_addr;
 				op_br:next_state = s_br;
+                op_jmp:next_state = s_jmp;
+                op_jsr:next_state = s_jsr;
 				default: /* do nothing */; 
 			endcase
    		end
    		s_add:next_state = fetch1;
    		s_and:next_state = fetch1;
    		s_not:next_state = fetch1;
+        s_jmp:next_state = fetch1;
    		s_br:begin 
    			if(branch_enable) 
    				next_state = s_br_taken;

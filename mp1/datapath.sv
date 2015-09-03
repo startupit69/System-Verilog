@@ -5,7 +5,7 @@ module datapath
     input clk,
 
     /* control signals */
-    input pcmux_sel,
+    input lc3b_sel4mux pcmux_sel,
     input load_pc,
     input storemux_sel,
     input load_ir,
@@ -69,11 +69,13 @@ module datapath
 /*
  * PC
  */
-mux2 pcmux
+mux4 pcmux
 (
     .sel(pcmux_sel),
     .a(pc_plus2_out),
     .b(br_add_out),
+    .c(alu_out),
+    .d(16'b0);
     .f(pcmux_out)
 );
 
@@ -216,7 +218,7 @@ register #(.width(16)) mdr
 );
 
 
-mux2 alumux
+mux4 alumux
 (
     .sel(alumux_sel),
     .a(sr2_out),

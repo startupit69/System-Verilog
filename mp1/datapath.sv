@@ -64,8 +64,6 @@ module datapath
 	lc3b_reg storemux_out;
 
 
-
-
 /*
  * PC
  */
@@ -74,7 +72,7 @@ mux4 pcmux
     .sel(pcmux_sel),
     .a(pc_plus2_out),
     .b(br_add_out),
-    .c(alu_out),
+    .c(sr1_out),
     .d(16'b0);
     .f(pcmux_out)
 );

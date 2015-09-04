@@ -24,12 +24,12 @@ module mp1
 	logic load_mar;
 	logic load_mdr;
 	logic load_cc;
-	logic pcmux_sel;
+	logic [1:0] pcmux_sel;
 	logic storemux_sel;
-	logic regfilemux_sel;
+	logic [1:0] regfilemux_sel;
 	logic marmux_sel;
 	logic mdrmux_sel;
-	logic alumux_sel;
+	logic [1:0] alumux_sel;
 	lc3b_aluop aluop;
 
 	/* Datapath to Control */

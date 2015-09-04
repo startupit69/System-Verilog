@@ -14,19 +14,19 @@ module control
     output logic load_mar,
     output logic load_mdr,
     output logic load_cc,
-    output lc3b_sel4mux pcmux_sel,
+    output logic [1:0] pcmux_sel,
     output logic storemux_sel,
-    output logic regfilemux_sel,
+    output logic [1:0] regfilemux_sel,
     output logic marmux_sel,
     output logic mdrmux_sel,
-    output lc3b_sel4mux alumux_sel,
+    output logic [1:0] alumux_sel,
     output lc3b_aluop aluop,
 
     /* Datapath to Control */
 	input logic branch_enable,
 	input lc3b_opcode opcode,
-    input logic imm5_enable,
-    input logic imm11_enable,
+   input logic imm5_enable,
+   input logic imm11_enable,
 
 	/* Control to Memory */
 	output logic mem_read,
@@ -44,9 +44,7 @@ enum int unsigned {
     fetch3,
     decode,
     s_add,
-    s_add_imm,
     s_and,
-    s_and_imm,
     s_not,
     s_br,
     s_br_taken,
@@ -54,7 +52,10 @@ enum int unsigned {
     s_ldr1,
     s_ldr2,
     s_str1,
-    s_str2
+    s_str2,
+	 s_lea,
+	 s_jmp,
+	 s_jsr
 
 } state, next_state;
 
@@ -65,13 +66,13 @@ begin : state_actions
     load_pc = 1'b0;
     load_ir = 1'b0;
     load_regfile = 1'b0;
-   	load_mar = 1'b0;
-  	load_mdr = 1'b0;
+	 load_mar = 1'b0;
+  	 load_mdr = 1'b0;
     load_cc = 1'b0;
-    pcmux_sel = 1'b00;
+    pcmux_sel = 2'b00;
     storemux_sel = 1'b0;
     alumux_sel = 2'b00;
-    regfilemux_sel = 1'b0;
+    regfilemux_sel = 2'b00;
     marmux_sel = 1'b0;
     mdrmux_sel = 1'b0;
     aluop = alu_add;
@@ -107,10 +108,10 @@ begin : state_actions
      			/* DR <= SRA + SRB */
      			aluop = alu_add;
      			load_regfile = 1;
-     			regfilemux_sel = 1;
+     			regfilemux_sel = 0;
      			load_cc = 1;
-                if(imm5_enable)
-                    alumux_sel = 2'b10;
+            if(imm5_enable)
+					alumux_sel = 2'b10;
      		end
 
      		s_and:begin
@@ -118,10 +119,10 @@ begin : state_actions
      			/* DR <= SRA AND SRB */
      			aluop = alu_and;
      			load_regfile = 1;
-                regfilemux_sel = 1;
+            regfilemux_sel = 0;
      			load_cc = 1;
-                if(imm5_enable)
-                    alumux_sel = 2'b10;
+            if(imm5_enable)
+					alumux_sel = 2'b10;
      		end
 
      		s_not:begin
@@ -166,16 +167,21 @@ begin : state_actions
      		end 
 
             /* mp1.1 states */
-            s_jmp:begin
+			s_jmp:begin
                 //todo
                 pcmux_sel = 2'b10;
                 load_pc = 1;
                 storemux_sel = 1'b0;
-            end
+			end
 
-            s_jsr:begin
+         s_jsr:begin
                 //todo
-            end
+			end
+			
+			s_lea:begin
+				regfilemux_sel = 2'b10;
+				load_regfile = 1;
+			end
 
      		default: /*do nothing */;
 		endcase
@@ -192,21 +198,22 @@ begin : next_state_logic
    		fetch3:next_state = decode;
    		decode:begin
    			case(opcode)
-   				op_add:next_state = s_add;
-				op_and:next_state = s_and;
-				op_ldr:next_state = calc_addr;
-				op_not:next_state = s_not;
-				op_str:next_state = calc_addr;
-				op_br:next_state = s_br;
-                op_jmp:next_state = s_jmp;
-                op_jsr:next_state = s_jsr;
+					op_add:next_state = s_add;
+					op_and:next_state = s_and;
+					op_ldr:next_state = calc_addr;
+					op_not:next_state = s_not;
+					op_str:next_state = calc_addr;
+					op_br:next_state = s_br;
+					op_jmp:next_state = s_jmp;
+					op_jsr:next_state = s_jsr;
+					op_lea:next_state = s_lea;
 				default: /* do nothing */; 
 			endcase
    		end
    		s_add:next_state = fetch1;
    		s_and:next_state = fetch1;
    		s_not:next_state = fetch1;
-        s_jmp:next_state = fetch1;
+			s_jmp:next_state = fetch1;
    		s_br:begin 
    			if(branch_enable) 
    				next_state = s_br_taken;
@@ -224,6 +231,9 @@ begin : next_state_logic
    		s_ldr2:next_state = fetch1;
    		s_str1:next_state = s_str2;
    		s_str2:if(mem_resp) next_state = fetch1;
+			s_lea:next_state = fetch1;
+			default: next_state = fetch1;
+		
 		endcase
 end
 

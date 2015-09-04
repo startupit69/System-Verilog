@@ -5,7 +5,7 @@ module datapath
     input clk,
 
     /* control signals */
-    input lc3b_sel4mux pcmux_sel,
+    input logic [1:0] pcmux_sel,
     input load_pc,
     input storemux_sel,
     input load_ir,
@@ -13,8 +13,8 @@ module datapath
     input load_mar,
     input load_mdr,
     input load_cc,
-    input lc3b_sel4mux alumux_sel,
-    input regfilemux_sel,
+    input logic [1:0] alumux_sel,
+    input logic [1:0] regfilemux_sel,
     input marmux_sel,
     input mdrmux_sel,
     input lc3b_aluop aluop,
@@ -27,8 +27,8 @@ module datapath
 	 output lc3b_word mem_address,
 	 output lc3b_word mem_wdata,
 	 output logic branch_enable,
-     output logic imm5_enable,
-     output logic imm11_enable
+    output logic imm5_enable,
+    output logic imm11_enable
 
 );
 
@@ -73,7 +73,7 @@ mux4 pcmux
     .a(pc_plus2_out),
     .b(br_add_out),
     .c(sr1_out),
-    .d(16'b0);
+    .d(),
     .f(pcmux_out)
 );
 
@@ -106,11 +106,13 @@ regfile regfile
     .reg_b(sr2_out)
 );
 
-mux2 #(.width(16))regfilemux
+mux4 #(.width(16))regfilemux
 (
     .sel(regfilemux_sel),
     .a(alu_out),
     .b(mem_wdata),
+	 .c(br_add_out),
+	 .d(),
     .f(regfilemux_out)
 );
 
@@ -222,7 +224,7 @@ mux4 alumux
     .a(sr2_out),
     .b(adj6_out),
     .c(imm5_sext_out),
-    .d(16'b0),
+    .d(),
     .f(alumux_out)
 );
 

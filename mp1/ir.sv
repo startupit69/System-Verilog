@@ -37,7 +37,7 @@ begin
     offset9 = data[8:0];
     
     imm5 = data[4:0];
-    im11 = data[10:0];
+    imm11 = data[10:0];
     imm5_enable = data[5];
     imm11_enable = data[11];
 

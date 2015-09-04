@@ -1,6 +1,6 @@
 module mux4 #(parameter width = 16)
 (
-	input lc3b_4mux_sel sel,
+	input [1:0] sel,
 	input [width-1:0] a, b, c, d,
 	output logic [width-1:0] f
 );
@@ -17,6 +17,6 @@ begin
 			f = c;
 		2'b11:
 			f = d;
-
+		endcase
 end
 endmodule:mux4

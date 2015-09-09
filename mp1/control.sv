@@ -53,9 +53,9 @@ enum int unsigned {
     s_ldr2,
     s_str1,
     s_str2,
-	 s_lea,
-	 s_jmp,
-	 s_jsr
+	s_lea,
+	s_jmp,
+	s_jsr
 
 } state, next_state;
 
@@ -135,7 +135,8 @@ begin : state_actions
 
      		s_br:/*do nothing */ ;
      		s_br_taken:begin
-     			pcmux_sel = 1;
+                pcoffsetmux_sel = 1'b0;
+     			pcmux_sel = 2'b01;
      			load_pc = 1;	
      		end
 
@@ -174,17 +175,36 @@ begin : state_actions
                 storemux_sel = 1'b0;
 			end
 
-         s_jsr:begin
-                //todo
-			end
-			
-			s_lea:begin
-				regfilemux_sel = 2'b10;
-				load_regfile = 1;
-			end
+            s_jsr1:begin
+                //R7 <= PC
+                // TODO IMPLEMENET DESTMUX
+                destmux_sel = 1'b0;
+                // TODO WIDEN REGFILEMUX
+                regfilemux_sel = 2'b10
+                load_regfile = 1;
+            end
 
-     		default: /*do nothing */;
-		endcase
+            s_jsr2:begin
+                load_pc = 1;
+                if(imm11_enable){
+                    /* PC <= PC + off11 */
+                    pcoffsetmux_sel = 1'b1;
+                    pcmux_sel = 2'b10;
+                }else{
+                    /* PC <= BaseR */
+
+
+                }
+
+            end
+			
+            s_lea:begin
+                regfilemux_sel = 2'b10;
+                load_regfile = 1;
+            end
+     	
+            default: /*do nothing */;
+	endcase
 end
 
 always_comb

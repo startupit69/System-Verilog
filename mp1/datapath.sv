@@ -34,11 +34,15 @@ module datapath
 
 /* declare internal signals */
 	lc3b_word pcmux_out;
+    lc3b_word pcoffsetmux_out;
+
 	lc3b_word pc_out;
 	lc3b_word br_add_out;
+    lc3b_word jsr_add_out;
 	lc3b_word pc_plus2_out;
 	lc3b_word adj9_out;
 	lc3b_word adj6_out;
+    lc3b_word adj11_out;
 	lc3b_word marmux_out;
     lc3b_word imm5_sext_out;
 	
@@ -49,6 +53,7 @@ module datapath
 
 	lc3b_offset6 offset6;
 	lc3b_offset9 offset9;
+    lc3b_offset11 offset11;
 
     lc3b_imm11 imm11;
     lc3b_imm5 imm5;
@@ -75,6 +80,14 @@ mux4 pcmux
     .c(sr1_out),
     .d(),
     .f(pcmux_out)
+);
+
+mux2 pcoffsetmux
+(
+    .sel(pcoffsetmux_sel),
+    .a(br_add_out),
+    .b(jsr_add_out),
+    .f(pcoffsetmux_out)
 );
 
 register pc
@@ -152,6 +165,12 @@ ir ir
     .imm11(imm11),
     .imm5_enable(imm5_enable),
     .imm11_enable(imm11_enable)
+);
+
+adj #(.width(11)) adj11
+(
+    .in(offset11),
+    .out(adj11_out)
 );
 
 adj #(.width(9))adj9

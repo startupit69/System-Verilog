@@ -18,17 +18,19 @@ module datapath
     input marmux_sel,
     input mdrmux_sel,
     input lc3b_aluop aluop,
+	 input logic pcoffsetmux_sel,
+	 input logic destmux_sel,
 
     /* declare more ports here */
     input lc3b_word mem_rdata,
 	 
 	 /* outputs */
-	 output lc3b_opcode opcode,
-	 output lc3b_word mem_address,
-	 output lc3b_word mem_wdata,
-	 output logic branch_enable,
+	output lc3b_opcode opcode,
+	output lc3b_word mem_address,
+	output lc3b_word mem_wdata,
+	output logic branch_enable,
     output logic imm5_enable,
-    output logic imm11_enable
+    output logic offset11_enable
 
 );
 
@@ -55,7 +57,6 @@ module datapath
 	lc3b_offset9 offset9;
     lc3b_offset11 offset11;
 
-    lc3b_imm11 imm11;
     lc3b_imm5 imm5;
 
 	lc3b_word regfilemux_out;
@@ -67,6 +68,7 @@ module datapath
 	lc3b_reg sr2;
 	lc3b_reg dest;
 	lc3b_reg storemux_out;
+    lc3b_reg r7 = 3'b111;
 
 
 /*
@@ -76,7 +78,7 @@ mux4 pcmux
 (
     .sel(pcmux_sel),
     .a(pc_plus2_out),
-    .b(br_add_out),
+    .b(pcoffsetmux_out),
     .c(sr1_out),
     .d(),
     .f(pcmux_out)
@@ -107,6 +109,13 @@ mux2 #(.width(3)) storemux
     .f(storemux_out)
 );
 
+mux2 #(.width(3)) destmux
+(
+    .sel(destmux_sel),
+    .a(dest),
+    .b(r7)
+);
+
 regfile regfile
 (
     .clk(clk),
@@ -124,8 +133,8 @@ mux4 #(.width(16))regfilemux
     .sel(regfilemux_sel),
     .a(alu_out),
     .b(mem_wdata),
-	 .c(br_add_out),
-	 .d(),
+	.c(br_add_out),
+	.d(pc_plus2_out),
     .f(regfilemux_out)
 );
 
@@ -161,10 +170,10 @@ ir ir
     .src2(sr2),
     .offset6(offset6),
     .offset9(offset9),
+    .offset11(offset11),
     .imm5(imm5),
-    .imm11(imm11),
     .imm5_enable(imm5_enable),
-    .imm11_enable(imm11_enable)
+    .offset11_enable(offset11_enable)
 );
 
 adj #(.width(11)) adj11
@@ -191,11 +200,18 @@ sext #(.width(5)) imm5_sext
     .out(imm5_sext_out)
 );
 
-br_add br_add
+adder br_add
 (
-    .pc_out(pc_out),
-    .adj9_out(adj9_out),
-    .br_add_out(br_add_out)
+    .a(pc_out),
+    .b(adj9_out),
+    .f(br_add_out)
+);
+
+adder jsr_add
+(
+    .a(pc_plus2_out),
+    .b(adj11_out),
+    .f(jsr_add_out)
 );
 
 plus2 plus2

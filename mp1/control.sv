@@ -15,18 +15,20 @@ module control
     output logic load_mdr,
     output logic load_cc,
     output logic [1:0] pcmux_sel,
+	 output logic pcoffsetmux_sel,
     output logic storemux_sel,
     output logic [1:0] regfilemux_sel,
     output logic marmux_sel,
     output logic mdrmux_sel,
     output logic [1:0] alumux_sel,
     output lc3b_aluop aluop,
+	 output logic destmux_sel,
 
     /* Datapath to Control */
 	input logic branch_enable,
 	input lc3b_opcode opcode,
    input logic imm5_enable,
-   input logic imm11_enable,
+   input logic offset11_enable,
 
 	/* Control to Memory */
 	output logic mem_read,
@@ -55,7 +57,9 @@ enum int unsigned {
     s_str2,
 	s_lea,
 	s_jmp,
-	s_jsr
+	s_jsr1,
+	s_jsr2,
+    s_jsr3
 
 } state, next_state;
 
@@ -66,12 +70,13 @@ begin : state_actions
     load_pc = 1'b0;
     load_ir = 1'b0;
     load_regfile = 1'b0;
-	 load_mar = 1'b0;
-  	 load_mdr = 1'b0;
+	load_mar = 1'b0;
+  	load_mdr = 1'b0;
     load_cc = 1'b0;
     pcmux_sel = 2'b00;
     storemux_sel = 1'b0;
     alumux_sel = 2'b00;
+	 pcoffsetmux_sel = 1'b0;
     regfilemux_sel = 2'b00;
     marmux_sel = 1'b0;
     mdrmux_sel = 1'b0;
@@ -79,6 +84,7 @@ begin : state_actions
     mem_read = 1'b0;
     mem_write = 1'b0;
     mem_byte_enable = 2'b11;
+    destmux_sel = 1'b0;
 
     case(state)
      		fetch1:begin
@@ -166,8 +172,7 @@ begin : state_actions
      		s_str2:begin
      			mem_write = 1;
      		end 
-
-            /* mp1.1 states */
+            
 			s_jmp:begin
                 //todo
                 pcmux_sel = 2'b10;
@@ -177,25 +182,23 @@ begin : state_actions
 
             s_jsr1:begin
                 //R7 <= PC
-                // TODO IMPLEMENET DESTMUX
-                destmux_sel = 1'b0;
-                // TODO WIDEN REGFILEMUX
-                regfilemux_sel = 2'b10
+                destmux_sel = 1'b1;
+                regfilemux_sel = 2'b11;
                 load_regfile = 1;
             end
 
             s_jsr2:begin
+                /* PC = PC + offset11 */
                 load_pc = 1;
-                if(imm11_enable){
-                    /* PC <= PC + off11 */
-                    pcoffsetmux_sel = 1'b1;
-                    pcmux_sel = 2'b10;
-                }else{
-                    /* PC <= BaseR */
+                pcoffsetmux_sel  = 1;
+                pcmux_sel  = 2'b10;
+            end
 
-
-                }
-
+            s_jsr3:begin
+                /* PC = BaseR */
+                pcmux_sel = 2'b10;
+                load_pc = 1;
+                storemux_sel = 1'b0;
             end
 			
             s_lea:begin
@@ -225,7 +228,7 @@ begin : next_state_logic
 					op_str:next_state = calc_addr;
 					op_br:next_state = s_br;
 					op_jmp:next_state = s_jmp;
-					op_jsr:next_state = s_jsr;
+					op_jsr:next_state = s_jsr1;
 					op_lea:next_state = s_lea;
 				default: /* do nothing */; 
 			endcase
@@ -251,8 +254,15 @@ begin : next_state_logic
    		s_ldr2:next_state = fetch1;
    		s_str1:next_state = s_str2;
    		s_str2:if(mem_resp) next_state = fetch1;
-			s_lea:next_state = fetch1;
-			default: next_state = fetch1;
+		s_lea:next_state = fetch1;
+
+        s_jsr1:begin
+            if(offset11_enable) 
+                next_state = s_jsr2;
+            else
+                next_state = s_jsr3;
+        end
+		default: next_state = fetch1;
 		
 		endcase
 end

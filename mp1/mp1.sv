@@ -60,8 +60,7 @@ datapath datapath
 	.mem_wdata(mem_wdata),
 	.mem_address(mem_address),
 	.branch_enable(branch_enable),
-	.imm5_enable(imm5_enable),
-	.imm11_enable(imm11_enable)
+	.imm5_enable(imm5_enable)
 );
 
 control control
@@ -87,8 +86,7 @@ control control
 	.mem_write(mem_write),
 	.mem_resp(mem_resp),
 	.branch_enable(branch_enable),
-	.imm5_enable(imm5_enable),
-	.imm11_enable(imm11_enable)
+	.imm5_enable(imm5_enable)
 );
 
 endmodule : mp1

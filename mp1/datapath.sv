@@ -114,6 +114,7 @@ mux2 #(.width(3)) destmux
     .sel(destmux_sel),
     .a(dest),
     .b(r7)
+    .f(destmux_out)
 );
 
 regfile regfile
@@ -123,7 +124,7 @@ regfile regfile
     .in(regfilemux_out),
     .src_a(storemux_out),
     .src_b(sr2),
-    .dest(dest),
+    .dest(destmux_out),
     .reg_a(sr1_out),
     .reg_b(sr2_out)
 );
@@ -132,10 +133,18 @@ mux4 #(.width(16))regfilemux
 (
     .sel(regfilemux_sel),
     .a(alu_out),
-    .b(mem_wdata),
+    .b(mem_wdatamux_out),
 	.c(br_add_out),
 	.d(pc_plus2_out),
     .f(regfilemux_out)
+);
+
+mux2 #(.width(16)) mem_wdatamux
+(
+    .sel(mem_wdatamux_sel)
+    .a(mem_wdata),
+    .b(mem_wdata_zext),
+    .f(mem_wdatamux_out)
 );
 
 gencc gencc
@@ -200,6 +209,18 @@ sext #(.width(5)) imm5_sext
     .out(imm5_sext_out)
 );
 
+sext #(.width(4)) imm4_sext
+(
+    .in(imm4),
+    .out(imm4_sext_out)
+);
+
+sext #(.width(6))
+(
+    .in(offset6),
+    .out(offset6_out)
+);
+
 adder br_add
 (
     .a(pc_out),
@@ -220,11 +241,13 @@ plus2 plus2
     .out(pc_plus2_out)
 );
 
-mux2 marmux
+mux4 marmux
 (
     .sel(marmux_sel),
     .a(alu_out),
     .b(pc_out),
+    .c(mem_wdata),
+    .d(),
     .f(marmux_out)
 );
 
@@ -236,7 +259,7 @@ register #(.width(16)) mar
     .out(mem_address)
 );
 
-mux2 mdrmax
+mux2 mdrmux
 (
     .sel(mdrmux_sel),
     .a(alu_out),
@@ -252,14 +275,13 @@ register #(.width(16)) mdr
     .out(mem_wdata)
 );
 
-
 mux4 alumux
 (
     .sel(alumux_sel),
     .a(sr2_out),
     .b(adj6_out),
     .c(imm5_sext_out),
-    .d(),
+    .d(imm4_sext_out),
     .f(alumux_out)
 );
 
@@ -269,6 +291,12 @@ alu alu
     .a(sr1_out),
     .b(alumux_out),
     .f(alu_out)
+);
+
+zext zextmem
+(
+    .input(mem_wdata),
+    .output(mem_wdata_zext)
 );
 
 

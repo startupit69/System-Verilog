@@ -59,7 +59,13 @@ enum int unsigned {
 	s_jmp,
 	s_jsr1,
 	s_jsr2,
-    s_jsr3
+    s_jsr3,
+    s_ldb1.
+    s_ldb2,
+    s_ldb3,
+    s_ldi1,
+    s_lid2,
+
 
 } state, next_state;
 
@@ -76,9 +82,9 @@ begin : state_actions
     pcmux_sel = 2'b00;
     storemux_sel = 1'b0;
     alumux_sel = 2'b00;
-	 pcoffsetmux_sel = 1'b0;
+	pcoffsetmux_sel = 1'b0;
     regfilemux_sel = 2'b00;
-    marmux_sel = 1'b0;
+    marmux_sel = 2'b00;
     mdrmux_sel = 1'b0;
     aluop = alu_add;
     mem_read = 1'b0;
@@ -125,7 +131,7 @@ begin : state_actions
      			/* DR <= SRA AND SRB */
      			aluop = alu_and;
      			load_regfile = 1;
-            regfilemux_sel = 0;
+                regfilemux_sel = 0;
      			load_cc = 1;
             if(imm5_enable)
 					alumux_sel = 2'b10;
@@ -147,6 +153,7 @@ begin : state_actions
      		end
 
      		calc_addr:begin
+                /* MAR <= BaseR + SEXT(offset6) << 1) */
      			alumux_sel = 2'b01;
      			aluop = alu_add;
      			load_mar = 1;
@@ -200,11 +207,95 @@ begin : state_actions
                 load_pc = 1;
                 storemux_sel = 1'b0;
             end
+
+            s_ldb1:begin
+                /* MAR <= BaseR + SEXT(offset6) */
+                marmux_sel = 0;
+                load_mar = 1;
+                alumux_sel = 2'b01;
+            end
+            s_ldb2:begin
+                /* MDR <= M[MAR] */
+                mdrmux_sel = 1'b1;
+                load_mdr = 1;
+                mem_read = 1;
+            end
+            s_ldb3:begin
+                /* DR <= MDR */
+                regfilemux_sel = 2'b10;
+                load_regfile = 1;
+                mem_wdatamux_sel = 1;
+                load_cc = 1;
+            end
 			
             s_lea:begin
                 regfilemux_sel = 2'b10;
                 load_regfile = 1;
             end
+            s_ldi1:begin                
+                /* MDR <= M[BaseR + sext(offset6)] */
+                mdrmux_sel = 2'b01;
+                load_mdr = 1;
+                mem_read = 1;
+            end
+            s_ldi2:begin
+                /* MAR <= MDR */
+                marmux_sel = 2'b10;
+                load_mar = 1;
+            end
+            s_ldi3:begin
+                /* MDR <= M[M[BaseR + sext(offset6)]] */
+                mdrmux_sel = 2'b01;
+                load_mdr = 1;
+                mem_read = 1;
+            end
+            s_ldi4:begin
+                /* DR <= MDR */
+                mem_wdatamux_sel = 0;
+                load_regfile = 1;
+                load_cc = 1;
+                regfilemux_sel = 2'b01;
+            end
+
+            s_shf:begin
+                /* shift */
+                load_regfile = 1;
+                load_cc = 1;
+                alumux_sel = 2'b11;
+                regfilemux_sel = 2'b00;
+                if(d_bit == 1'b0){
+                    aluop = alu_sll;
+                }else{
+                    if(a_bit == 1'b0)
+                    {
+                        aluop = alu_srl;
+                    }else{
+                        aluop = alu_sra;
+                    }
+                }
+            end
+
+            s_stb1:begin
+                /* MAR <= SR1 + SEXT(IR[5:0]) */
+                alumux_sel = 2'b10;
+                aluop = alu_add;
+                load_mar = 1;
+            end
+
+            s_stb2:begin
+                /* MDR <= SR */
+                storemux_sel = 1'b1;
+                aluop = alu_pass;
+                mdrmux_sel = 1'b0;
+                load_mdr = 1;
+            end
+
+            s_stb3:begin
+                /* M[MAR] <= MDR */
+                mem_write = 1;
+            end
+
+
      	
             default: /*do nothing */;
 	endcase
@@ -230,13 +321,14 @@ begin : next_state_logic
 					op_jmp:next_state = s_jmp;
 					op_jsr:next_state = s_jsr1;
 					op_lea:next_state = s_lea;
+                    op_ldi:next_state = s_ldi1;
 				default: /* do nothing */; 
 			endcase
    		end
    		s_add:next_state = fetch1;
    		s_and:next_state = fetch1;
    		s_not:next_state = fetch1;
-			s_jmp:next_state = fetch1;
+		s_jmp:next_state = fetch1;
    		s_br:begin 
    			if(branch_enable) 
    				next_state = s_br_taken;
@@ -264,6 +356,10 @@ begin : next_state_logic
         end
 		default: next_state = fetch1;
 		
+        s_ldb1:next_state = s_ldb2;
+        s_ldb2:next_state = s_ldb3;
+        s_ldb3:next_state = s_ldb3;
+
 		endcase
 end
 

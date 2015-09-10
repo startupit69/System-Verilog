@@ -15,7 +15,7 @@ module control
     output logic load_mdr,
     output logic load_cc,
     output logic [1:0] pcmux_sel,
-	 output logic pcoffsetmux_sel,
+	output logic pcoffsetmux_sel,
     output logic storemux_sel,
     output logic [1:0] regfilemux_sel,
     output logic marmux_sel,
@@ -27,8 +27,8 @@ module control
     /* Datapath to Control */
 	input logic branch_enable,
 	input lc3b_opcode opcode,
-   input logic imm5_enable,
-   input logic offset11_enable,
+    input logic imm5_enable,
+    input logic offset11_enable,
 
 	/* Control to Memory */
 	output logic mem_read,

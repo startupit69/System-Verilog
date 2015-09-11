@@ -22,7 +22,7 @@ logic ready;
 /* Initialize memory contents from memory.lst file */
 initial
 begin
-    $readmemh("mp1-cp.lst", mem);
+    $readmemh("mp1-2.lst", mem);
 end
 
 assign internal_address = {address[15:1], 1'b0};

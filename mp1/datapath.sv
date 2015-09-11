@@ -190,6 +190,7 @@ ir ir
     .offset6(offset6),
     .offset9(offset9),
     .offset11(offset11),
+    .imm4(imm4),
     .imm5(imm5),
     .imm5_enable(imm5_enable),
     .offset11_enable(offset11_enable),

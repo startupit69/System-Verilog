@@ -215,7 +215,7 @@ begin : state_actions
                 /* PC = PC + offset11 */
                 load_pc = 1;
                 pcoffsetmux_sel  = 1;
-                pcmux_sel  = 2'b10;
+                pcmux_sel  = 2'b01;
             end
             s_jsr3:begin
                 /* PC = BaseR */
@@ -371,7 +371,7 @@ begin : next_state_logic
 					op_add:next_state = s_add;
 					op_and:next_state = s_and;
 					op_not:next_state = s_not;
-               op_shf:next_state = s_shf;
+                    op_shf:next_state = s_shf;
                     /* branch and jump */
 					op_br:next_state = s_br;
 					op_jmp:next_state = s_jmp;
@@ -412,8 +412,14 @@ begin : next_state_logic
    		calc_addr:begin
    			if(opcode == op_ldr)
    				next_state = s_ldr1;
-   			else
+   			else if(opcode == op_str)
    				next_state = s_str1;
+            else if(opcode == op_sti)
+                next_state = s_sti1;
+            else if(opcode == op_ldi)
+                next_state = s_ldi1;
+            else
+                next_state = fetch1;
    		end
    		
         /* JSR */

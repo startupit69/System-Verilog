@@ -10,6 +10,7 @@ module ir
     output lc3b_offset6 offset6,
     output lc3b_offset9 offset9,
     output lc3b_offset11 offset11,
+    output lc3b_imm4 imm4,
     output lc3b_imm5 imm5,
     output logic imm5_enable,
     output logic offset11_enable,
@@ -43,13 +44,15 @@ begin
     offset9 = data[8:0];
     offset11 = data[10:0];
 
+    imm4 = data[3:0];
+
     imm5 = data[4:0];
     imm5_enable = data[5];
     offset11_enable = data[11];
 
     trapvect8 = data[7:0];
-    a_bit = data[4];
-    d_bit = data[5];
+    a_bit = data[5];
+    d_bit = data[4];
 
 end
 

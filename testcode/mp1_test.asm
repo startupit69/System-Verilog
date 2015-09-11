@@ -1,0 +1,51 @@
+ORIGIN 0
+SEGMENT
+CodeSegment ; zachrice testcode
+	;; Clear Registers
+	AND R0, R0, 0
+	AND R1, R1, 0
+	AND R2, R2, 0
+	AND R3, R3, 0
+	AND R4, R4, 0
+	AND R5, R5, 0
+	AND R6, R6, 0
+
+	;; TESTING JSR
+	JSR TESTJMP 	; PC <= TESTJMP
+	LDR R0, DATA 	; R0 <= Modified DATA
+
+	;; TESTING LDI/STI
+	LDI R5, R0, POINTER 	; R5 <= FEED
+	STI R5, R0, STPOINTER 	; MySData <= FEED
+	LDR R4, MySData 		; R4 <= FEED
+
+
+TESTJSR:
+	LEA R1, DATA 	; R1 <= [DATA] (address of DATA)
+	AND R2, 0		; R2 <= 0
+	ADD R2, R2, 10	; R2 <= 10
+	;; TESTING STR
+	STR R2, DATA 	; DATA = 10
+	;; TESTING JUMP
+	JMP GOOD
+	BRnzp HALT
+GOOD:
+	LDR R5, GOOD	; R5 <= GOOD 
+	RET
+
+HALT:
+	BRnzp HALT
+
+
+
+
+
+POINTER: DATA2 MyData
+MyData: DATA2 4xFEED	
+DATA: DATA2 5
+BADBAD: DATA2 4x0BAD
+GOOD: DATA 4x600D
+
+STPOINTER: DATA2 MySData
+MySData: DATA2 ?
+

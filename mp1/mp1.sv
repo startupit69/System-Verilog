@@ -24,13 +24,23 @@ module mp1
 	logic load_mar;
 	logic load_mdr;
 	logic load_cc;
+	
 	logic [1:0] pcmux_sel;
 	logic storemux_sel;
 	logic [1:0] regfilemux_sel;
-	logic marmux_sel;
+	logic [1:0] marmux_sel;
 	logic mdrmux_sel;
 	logic [1:0] alumux_sel;
+	logic pcoffsetmux_sel;
+	logic [1:0] loadmux_sel;
+	logic maradjmux_sel;
+	logic offset11_enable;
+	logic d_bit;
+	logic a_bit;
+	
 	lc3b_aluop aluop;
+
+
 
 	/* Datapath to Control */
 	lc3b_opcode opcode;
@@ -60,7 +70,13 @@ datapath datapath
 	.mem_wdata(mem_wdata),
 	.mem_address(mem_address),
 	.branch_enable(branch_enable),
-	.imm5_enable(imm5_enable)
+	.imm5_enable(imm5_enable),
+	.pcoffsetmux_sel(pcoffsetmux_sel),
+	.loadmux_sel(loadmux_sel),
+	.maradjmux_sel(maradjmux_sel),
+	.offset11_enable(offset11_enable),
+	.d_bit(d_bit),
+	.a_bit(a_bit)
 );
 
 control control
@@ -86,7 +102,14 @@ control control
 	.mem_write(mem_write),
 	.mem_resp(mem_resp),
 	.branch_enable(branch_enable),
-	.imm5_enable(imm5_enable)
+	.imm5_enable(imm5_enable),
+	.mem_byte(mem_address[0]),
+	.loadmux_sel(loadmux_sel),
+	.pcoffsetmux_sel(pcoffsetmux_sel),
+	.maradjmux_sel(maradjmux_sel),
+	.offset11_enable(offset11_enable),
+	.d_bit(d_bit),
+	.a_bit(a_bit)
 );
 
 endmodule : mp1

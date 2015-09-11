@@ -8,6 +8,8 @@ typedef logic  [8:0] lc3b_offset9;
 typedef logic  [5:0] lc3b_offset6;
 
 typedef logic [4:0] lc3b_imm5;
+typedef logic [3:0] lc3b_imm4;
+
 
 typedef logic  [1:0] lc3b_sel4mux;
 typedef logic  [2:0] lc3b_reg;

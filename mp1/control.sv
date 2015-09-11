@@ -79,7 +79,9 @@ enum int unsigned {
     s_sti3,
     s_sti4,
     s_trap1,
-    s_trap2
+    s_trap2,
+	 s_trap3,
+	 s_trap4
 
 	 
 } state, next_state;
@@ -229,6 +231,7 @@ begin : state_actions
                 /*  MAR <= SR1 + sext(offset6)*/
                 marmux_sel = 2'b11;
                 maradjmux_sel = 1;
+                load_mar = 1;
             end
             s_ldb2:begin
                 /* MDR <= M[MAR] */
@@ -241,9 +244,9 @@ begin : state_actions
                 regfilemux_sel = 2'b10;
                 load_regfile = 1;
                 if(mem_byte)
-                    loadmux_sel = 2'b00;
-                else
                     loadmux_sel = 2'b01;
+                else
+                    loadmux_sel = 2'b00;
                 load_cc = 1;
             end
 			
@@ -342,11 +345,24 @@ begin : state_actions
             s_trap1:begin
                 /* R7 <= PC */
                 load_regfile = 1;
-                storemux_sel = 1; 
+                storemux_sel = 1;
+                regfilemux_sel = 2'b11; 
             end
             s_trap2:begin
                 /* MAR <= ZEXT(trapvec8 << 1) */
-
+                maradjmux_sel = 0;
+                marmux_sel = 2'b11;
+                load_mar = 1;
+            end
+            s_trap3:begin
+                /* spin me */
+                mem_read = 1;
+                load_mdr = 1;
+                mdrmux_sel = 1;
+            end
+            s_trap4:begin
+                load_pc = 1;
+                pcmux_sel = 2'b11;
             end
 
 
@@ -385,6 +401,7 @@ begin : next_state_logic
                     op_sti:next_state = calc_addr;
                     op_str:next_state = calc_addr;
                     op_stb:next_state = s_stb1;
+                    op_trap:next_state = s_trap1;
 
 
                     //TODO ADD ALL
@@ -470,7 +487,7 @@ begin : next_state_logic
             if(mem_resp) 
                 next_state = s_ldb3;
             else
-                next_state = s_ldi2;
+                next_state = s_ldb2;
         end
         s_ldb3:begin
             next_state = fetch1;
@@ -521,6 +538,23 @@ begin : next_state_logic
                 next_state = fetch1;
             else
                 next_state = s_stb3;
+        end
+
+        /* TRAP */
+        s_trap1:begin
+            next_state = s_trap2;
+        end
+        s_trap2:begin
+            next_state = s_trap3;
+        end
+        s_trap3:begin
+            if(mem_resp)
+                next_state = s_trap4;
+            else
+                next_state = s_trap3;
+        end
+        s_trap4:begin
+            next_state = fetch1;
         end
 
         default: next_state = fetch1;

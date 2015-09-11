@@ -56,7 +56,7 @@ module datapath
     lc3b_word mem_wdata_zext_low;
     lc3b_word mem_wdata_zext_high;
     lc3b_word offset6_out;
-    lc3b_word stb_add_out;
+    lc3b_word b_add_out;
     lc3b_word maradjmux_out;
     lc3b_word trapvect8_zext_out;	
 
@@ -94,7 +94,7 @@ mux4 pcmux
     .a(pc_plus2_out),
     .b(pc_add_out),
     .c(sr1_out),
-    .d(),
+    .d(mem_wdata),
     .f(pcmux_out)
 );
 
@@ -241,7 +241,7 @@ adder stb_add
 (
     .a(offset6_out),
     .b(sr1_out),
-    .f(stb_add_out)
+    .f(b_add_out)
 );
 
 
@@ -341,7 +341,7 @@ mux2 maradjmux
 (
     .sel(maradjmux_sel),
     .a(trapvect8_zext_out),
-    .b(stb_add_out),
+    .b(b_add_out),
     .f(maradjmux_out)
 );
 

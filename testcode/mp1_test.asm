@@ -1,66 +1,81 @@
 ORIGIN 0
 SEGMENT
-CodeSegment ; zachrice testcode
-	;; Clear Registers
+CodeSegment:
+; initialize registers
 	AND R0, R0, 0
-	AND R1, R1, 0
-	AND R2, R2, 0
-	AND R3, R3, 0
-	AND R4, R4, 0
-	AND R5, R5, 0
-	AND R6, R6, 0
+	AND R1, R0, 0
+	AND R2, R0, 0
+	AND R3, R0, 0
+	AND R4, R0, 0
+	AND R5, R0, 0
+	AND R6, R0, 0
+	AND R7, R0, 0
 
-	;; TESTING JSR
-	JSR TESTJMP 	; PC <= TESTJMP
-	LDR R0, DATA 	; R0 <= Modified DATA
-
-	;; TESTING LDI/STI
-	LDI R5, R0, POINTER 	; R5 <= FEED
-	STI R5, R0, STPOINTER 	; MySData <= FEED
-	LDR R4, MySData 		; R4 <= FEED
-
-	;; TESTING LDB/STB
-	LDB R2, R0, LOWBYTE 	; R2 <= 000D
-	LDB R3, R0, HIGHBYTE 	; R3 <= 0060
-	ADD R2, R2, 1 			; R2 <= 000E
-	ADD R3, R3, 1 			; R3 <= 0061
-	STB R3, R0, LOWSTORE	; LOWSTORE <= 000E
-	STB R4, R0, HIGHSTORE 	; HIGHSTORE <= 0061 
-	LDR R5, LOWSTORE 		; LOWSTORE <= 000E
-	LDR R6, HIGHSTORE 		; HIGHSTORE <= 0061
+; testing jmp
+	LEA R2, TEST_JMP
+	JMP R2
+	LDR R1, R0, BAD	;don't want this to load
 
 
-TESTJSR:
-	LEA R1, DATA 	; R1 <= [DATA] (address of DATA)
-	AND R2, 0		; R2 <= 0
-	ADD R2, R2, 10	; R2 <= 10
-	;; TESTING STR
-	STR R2, DATA 	; DATA = 10
-	;; TESTING JMP
-	JMP GOOD
+TEST_JMP: 
+	LEA R0, DataSegment 	; need for addressing
+	LDR R3, R0, TMP_VAL 	; check ldr works
+	JSR TEST_JSR			; testing jsr
+	RSHFL R1, R1, 1 		; R1 <= 600d >> 1 = 
+	LSHF R5, R1, 1 		; R5 <= 600c
+	LEA R6, TEST_JSRR 		; testing jssr
+	JSRR R6 				; calling TEST_JSSR
+
 	BRnzp HALT
-GOOD:
-	LDR R5, GOOD	; R5 <= GOOD 
+
+TEST_JSR:
+	;; TEST_JSR ALSO TESTS LDR AND STR
+	;; ALSO TESTS STI AND LDI
+	LDR R2, R0, GOOD		; see if we made it to jsr
+	LEA R3, TAR1			; R3 has address where we want to store
+	STR R2, R0, TAR1 		; TAR1 should be filled with GOOD
+	LDR R3, R0, TAR1		; R3 should have GOOD
+	LEA R1, TAR3 			; R1 holds address of tar3
+	STR R1, R0, TAR1		; [TAR1] = addr of TAR3 
+	LDR R2, R0, TAR1 		; R2 == R1 should
+	STI R3, R0, TAR1 		; [TAR3] = GOOD we want this
+	ADD R5, R5, R3			; see whats in r3
+	LDR R1, R0, TAR3 		; R1 <= GOOD 
+	LEA R5, TAR3 			; R5 <= addr of TAR3
+	LDI R2, R0, TAR1		; R2 <= GOOD
+	RET
+
+TEST_JSRR:
+	;; This function validates stb/ldb
+	LDB R4, R0, LEET 	; R4 should have 0037
+	LEA R1, DataSegment ; for high byte offset
+	ADD R1, R1, 1 		; high byte offset
+ 	LDB R5, R1, LEET 	; R5 should have 0013
+
+ 	LEA R3, TAR3
+ 	AND R6, R6, 0 		; clear R6
+ 	STR R6, R0, TAR3 	; TAR3 = 0
+ 	LDR R4, R0, AB 		; R4 = AB
+ 	LDR R2, R0, CD 		; R2 = CD
+
+ 	STB R4, R0, TAR3 	; TAR3 <= x00AB
+ 	LDR R6, R0, TAR3 	; R6 <= x0037 check if it works
+ 	STB R2, R1, TAR3 	; TAR3 = xCDAB
+ 	LDR R5, R0, TAR3 	; R6 = 1337 should work
+
+
 	RET
 
 HALT:
 	BRnzp HALT
 
-
-
-
-DATA: DATA2 5
-BADBAD: DATA2 4x0BAD
-GOOD: DATA 4x600D
-
-;; Data for STI/LDI
-POINTER: DATA2 MyData
-MyData: DATA2 4xFEED
-STPOINTER: DATA2 MySData
-MySData: DATA2 ?
-
-;; Data for LDB/STB
-LOWBYTE: DATA1 4x0D
-HIGHBYTE: DATA1 4x60
-LOWSTOREBYTE: DATA1 ?
-HIGHSTOREBYTE: DATA1 ?
+SEGMENT DataSegment:   
+TMP_VAL: DATA2 4x0002   ; 54
+BAD: DATA2 4x0bad    ; 56
+GOOD: DATA2 4x600D   ; 58
+LEET: DATA2 4x1337 	; 60
+AB: DATA2 4x00AB
+CD: DATA2 4x00CD
+TAR1: DATA2 0
+TAR2: DATA2 0
+TAR3: DATA2 0

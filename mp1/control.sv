@@ -304,6 +304,7 @@ begin : state_actions
                 /* MAR <= SR1 + SEXT(IR[5:0]) */
                 marmux_sel = 2'b11;
                 maradjmux_sel = 1;
+                load_mar = 1;
             end
             s_stb2:begin
                 /* MDR <= SR */
@@ -314,11 +315,13 @@ begin : state_actions
             end
             s_stb3:begin
                 /* M[MAR] <= MDR */
-                mem_write = 1;
-                if(mem_byte)
+                //mem_write = 1;
+                //mem_byte_enable = 2'b01;
+                if(mem_byte == 0)
                     mem_byte_enable = 2'b01;
                 else
                     mem_byte_enable = 2'b10;
+                mem_write = 1;
             end
 
             /* STI */

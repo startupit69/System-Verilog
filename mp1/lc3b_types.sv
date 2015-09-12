@@ -35,14 +35,15 @@ typedef enum bit [3:0] {
     op_trap = 4'b1111
 } lc3b_opcode;
 
-typedef enum bit [3:0] {
+typedef enum bit [4:0] {
     alu_add,
     alu_and,
     alu_not,
     alu_pass,
     alu_sll,
     alu_srl,
-    alu_sra
+    alu_sra,
+	 alu_lth
 } lc3b_aluop;
 
 endpackage : lc3b_types

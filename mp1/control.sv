@@ -337,8 +337,10 @@ begin : state_actions
             s_sti3:begin
                 /* MDR <= SR */
                 aluop = alu_pass;
+                storemux_sel = 1;                 
                 mdrmux_sel = 0;
                 load_mdr = 1;
+                mem_read = 1;
             end
             s_sti4:begin
                 mem_write = 1;
@@ -450,7 +452,7 @@ begin : next_state_logic
                 next_state = s_jsr3;
         end
         s_jsr2:next_state=fetch1;
-        s_jsr3:next_state=fetch2;
+        s_jsr3:next_state=fetch1;
 
 
         /* LDR LDR LDR LDR LDR */

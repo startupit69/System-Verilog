@@ -17,6 +17,8 @@ begin
         alu_sll: f = a << b;
         alu_srl: f = a >> b;
         alu_sra: f = $signed(a) >>> b;
+        alu_lth: f = {a[7:0], a[7:0]};
+
         default: $display("Unknown aluop");
     endcase
 end

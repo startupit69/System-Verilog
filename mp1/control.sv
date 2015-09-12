@@ -308,14 +308,17 @@ begin : state_actions
             s_stb2:begin
                 /* MDR <= SR */
                 storemux_sel = 1'b1;
-                aluop = alu_pass;
+                aluop = alu_lth;
                 mdrmux_sel = 1'b0;
                 load_mdr = 1;
             end
             s_stb3:begin
                 /* M[MAR] <= MDR */
                 mem_write = 1;
-                mem_byte_enable = 2'b01;
+                if(mem_byte)
+                    mem_byte_enable = 2'b01;
+                else
+                    mem_byte_enable = 2'b10;
             end
 
             /* STI */

@@ -1,6 +1,6 @@
 import lc3b_types::*;
 
-module datapath
+module cpu_datapath
 (
     input clk,
 
@@ -346,4 +346,4 @@ mux2 maradjmux
 );
 
 
-endmodule : datapath
+endmodule : cpu_datapath

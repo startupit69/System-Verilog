@@ -1,6 +1,6 @@
 import lc3b_types::*; /* Import types defined in lc3b_types.sv */
 
-module control
+module cpu_control
 (
     /* Input and output port declarations */
     input clk,
@@ -575,4 +575,4 @@ begin: next_state_assignment
     state <= next_state;
 end
 
-endmodule : control
+endmodule : cpu_control

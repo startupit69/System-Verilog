@@ -1,5 +1,7 @@
 package lc3b_types;
 
+typedef logic [127:0] lc3b_block;
+
 typedef logic [15:0] lc3b_word;
 typedef logic  [7:0] lc3b_byte;
 
@@ -9,6 +11,11 @@ typedef logic  [5:0] lc3b_offset6;
 
 typedef logic [4:0] lc3b_imm5;
 typedef logic [3:0] lc3b_imm4;
+
+//new for mp2
+typedef logic [9:0] lc3b_tag;
+typedef logic [2:0] lc3b_index;
+typedef logic [2:0] lc3b_offset3;
 
 
 typedef logic  [1:0] lc3b_sel4mux;

@@ -13,7 +13,7 @@ typedef logic [4:0] lc3b_imm5;
 typedef logic [3:0] lc3b_imm4;
 
 //new for mp2
-typedef logic [9:0] lc3b_tag;
+typedef logic [8:0] lc3b_tag;
 typedef logic [2:0] lc3b_index;
 typedef logic [2:0] lc3b_offset3;
 

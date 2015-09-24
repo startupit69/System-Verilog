@@ -1,7 +1,6 @@
 import lc3b_types::*;
 
 
-
 /* CHANGES FROM DATAPATH !!! 
  * TODO DONT FORGET!!!
  * Mem_byte_enables determines which byte we will write.
@@ -13,10 +12,13 @@ import lc3b_types::*;
  /* RESET TIMING STUFF DO MP0 AGAIN PRETTY MUCH */
 module cache_datapath
 (
+	input clk,
+
 	//inputs from cpu
 	input lc3b_word mem_address,
 	input lc3b_index index,
 	input lc3b_offset3 offset,
+	input lc3b_tag tag,
 	input lc3_word mem_wdata,
 	input logic mem_read,
 	input logic mem_write,
@@ -28,15 +30,53 @@ module cache_datapath
 	// input from physical mem
 	input lc3b_block pmem_rdata,
 
-
 	// output to physical mem
 	output lc3b_block pmem_wdata
+
+
+	//input from control
+	/* muxes */
+	input lc3b_index datawordmux_sel,
+	input lc3b_index datawritemux_sel,
+	input logic [1:0] membytemux_sel,
+	input logic [1:0] datawaymux_sel,
+	input logic [1:0] datainmux_sel,
+	/* writes */
+	input logic dataarr0_write,
+	input logic dataarr1_write,
+	input logic valid0_write,
+	input logic valid1_write,
+	input logic tag0_write,
+	input logic tag1_write,
+	input logic dirtyarr0_write,
+	input logic dirtyarr1_write,
+	input logic lru_write,
+	input logic lru_in,
+
+	//output to control
+	/* used to determin hit in control*/
+	output lc3b_tag cmp_tag0,
+	output lc3b_tag cmp_tag1,
+	output logic valid0_out,
+	output logic valid1_out,
+	output logic dirtyarr0_out,
+	output logic dirtyarr1_out
+	/* LRU stuff */
+	output logic lru_out,
+	output logic datawrite_decoder0,
+	output logic datawrite_decoder1
+
 
 );
 
 /* internal signals */
 lc3b_word membytemux_out;
-
+lc3b_tag tag0_out;
+lc3b_tag tag1_out;
+lc3b_block data0_out;
+lc3b_block data1_out;
+lc3b_block datainmux_out;
+lc3b_block datawaymux_out;
 
 
 
@@ -45,99 +85,99 @@ lc3b_word membytemux_out;
 /*======================================================*/
 array #(.width(1))validarr0
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(valid0_write),
+	.index(index),
+	.datain(1'b1),
+	.dataout(valid0_out)
 );
 array #(.width(10))tagarr0
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(tag0_write),
+	.index(index),
+	.datain(tag),
+	.dataout(tag0_out)
 );
 array #(.width(128))dataarr0
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(dataarr0_write),
+	.index(index),
+	.datain(datainmux_out),
+	.dataout(data0_out)
 );
 array #(.width(1))dirtyarr0
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(dirtyarr0_write),
+	.index(index),
+	.datain(mem_write),
+	.dataout(dirtyarr0_out)
 );
 comparator comp0
 (
-	.a(),
-	.b(),
-	.f()
+	.a(tag0_out),
+	.b(tag),
+	.f(cmp_tag0)
 );
 /*======================================================*/
 /* 					WAY1 WAY1 WAY1 WAY1 				*/
 /*======================================================*/
 array #(.width(1))validarr1
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(valid1_write),
+	.index(index),
+	.datain(1'b1),
+	.dataout(valid1_out)
 );
 array #(.width(10))tagarr1
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(tag1_write),
+	.index(index),
+	.datain(tag),
+	.dataout(tag0_out)
 );
 array #(.width(128))dataarr1
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(dataarr1_write),
+	.index(index),
+	.datain(datainmux_out),
+	.dataout(data1_out)
 );
 array #(.width(1))dirtyarr1
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(dirtyarr1_write),
+	.index(index),
+	.datain(mem_write),
+	.dataout(dirtyarr1_out)
 );
 comparator comp1
 (
-	.a(),
-	.b(),
-	.f()
+	.a(tag1_out),
+	.b(tag),
+	.f(cmp_tag1)
 );
 /*======================================================*/
 /* 					LRU LRU LRU LRU 					*/
 /*======================================================*/
 array #(.width(1)) lruarr
 (
-	.clk(),
-	.write(),
-	.index(),
-	.datain(),
-	.dataout()
+	.clk(clk),
+	.write(lru_write),
+	.index(index),
+	.datain(lru_in),
+	.dataout(lru_out)
 );
 decoder1 lrudecoder
 (
-	.in(),
-	.out0(),
-	.out1()
+	.in(lru_out),
+	.out0(datawrite_decoder0),
+	.out1(datawrite_decoder1)
 );
 /*======================================================*/
 /* 					DATA OUT/IN MUXES					*/
@@ -145,37 +185,35 @@ decoder1 lrudecoder
 /* This mux determins which way to pull data from */
 mux2 datawaymux
 (
-	.sel(),
-	.a(),
-	.b(),
-	.f()
+	.sel(datawaymux_sel),
+	.a(data0_out),
+	.b(data1_out),
+	.f(datawaymux_out)
 );
 /* This mux determines which data goes into the array, either from physical memory or a new write */
 mux2 datainmux
 (
-	.sel(),
+	.sel(datainmux_sel),
 	.a(),
 	.b(),
-	.f()
+	.f(datainmux_out)
 );
-
 /* Determines which byte to write to data 
  * If 0 go to idle state, DO NOT WRITE!
  */
 mux4 membytemux
 (
-	.sel(mem_byte_enable),
+	.sel(membytemux_sel),
 	.a(0),
 	.b({8'b0, mem_wdata[7:0]}),
 	.c({mem_wdata[15:8],8'b0}),
 	.d(mem_wdata),
 	.f(membytemux_out)
 );
-
 /* This mux determines which word from a block to output (16 bits) */
 mux8 #(.width(16)) datawordmux
 (
-	.sel(),
+	.sel(datawordmux_sel),
 	.a(),
 	.b(),
 	.c(),
@@ -189,7 +227,7 @@ mux8 #(.width(16)) datawordmux
 /* This mux determines which constructed block to write to an array*/
 mux8 #(.width(128)) datawritemux
 (
-	.sel(),
+	.sel(datawritemux_sel),
 	.a(),
 	.b(),
 	.c(),

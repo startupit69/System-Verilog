@@ -77,6 +77,7 @@ lc3b_block data0_out;
 lc3b_block data1_out;
 lc3b_block datainmux_out;
 lc3b_block datawaymux_out;
+lc3b_block datawordmux_out;
 
 
 
@@ -194,8 +195,8 @@ mux2 datawaymux
 mux2 datainmux
 (
 	.sel(datainmux_sel),
-	.a(),
-	.b(),
+	.a(pmem_rdata),
+	.b(datain_block),
 	.f(datainmux_out)
 );
 /* Determines which byte to write to data 
@@ -212,31 +213,30 @@ mux4 membytemux
 );
 /* This mux determines which word from a block to output (16 bits) */
 mux8 #(.width(16)) datawordmux
-(
-	.sel(datawordmux_sel),
-	.a(),
-	.b(),
-	.c(),
-	.d(),
-	.e(),
-	.f(),
-	.g(),
-	.h(),
-	.out()
+	.sel(datawritemux_sel),
+	.a(datawaymux_out[15:0]),
+	.b(datawaymux_out[31:16]),
+	.c(datawaymux_out[47:32]),
+	.d(datawaymux_out[63:48]),
+	.e(datawaymux_out[79:64]),
+	.f(datawaymux_out[95:80]),
+	.g(datawaymux_out[111:96]),
+	.h(datawaymux_out[127:112]),
+	.out(mem_rdata)
 );
 /* This mux determines which constructed block to write to an array*/
 mux8 #(.width(128)) datawritemux
 (
-	.sel(datawritemux_sel),
-	.a(),
-	.b(),
-	.c(),
-	.d(),
-	.e(),
-	.f(),
-	.g(),
-	.h(),
-	.out()
+	.sel(datawordmux_sel),
+	.a({datawaymux_out[127:16], mem_wdata}),
+	.b({datawaymux_out[127:32], mem_wdata, datawaymux_out[15:0]}),
+	.c({datawaymux_out[127:48], mem_wdata, datawaymux_out[31:0]}),
+	.d({datawaymux_out[127:64], mem_wdata, datawaymux_out[47:0]}),
+	.e({datawaymux_out[127:80], mem_wdata, datawaymux_out[63:0]}),
+	.f({datawaymux_out[127:96], mem_wdata, datawaymux_out[79:0]}),
+	.g({datawaymux_out[127:112], mem_wdata, datawaymux_out[95:0]}),
+	.h({mem_wdata, datawaymux_out[111:0]}),
+	.out(datawordmux_out)
 );
 
 

@@ -5,6 +5,9 @@ module cache_control
 	//input from datapath
 	input logic ishit0_out,
 	input logic ishit1_out,
+	input logic dirtyarr0_out,
+	input logic dirtyarr1_out,
+	input logic 
 
 	//output to datapath
 	/*muxes*/

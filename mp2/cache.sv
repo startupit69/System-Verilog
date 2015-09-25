@@ -53,15 +53,16 @@ logic datawrite_decoder1;
 logic ishit0_out;
 logic ishit1_out;
 
-assign pmem_address = mem_address;
-
 cache_controller cache_controller
 (
+	/* control -> datapath */
+	/* mux sel*/
 	.datawordmux_sel(datawordmux_sel),
 	.datawritemux_sel(datawritemux_sel),
 	.membytemux_sel(membytemux_sel),
 	.datawaymux_sel(datawaymux_sel),
 	.datainmux_sel(datainmux_sel),
+	/* loads */  
 	.dataarr0_write(dataarr0_write),
 	.dataarr1_write(dataarr1_write),
 	.valid0_write(valid0_write),
@@ -71,9 +72,13 @@ cache_controller cache_controller
 	.dirtyarr0_write(dirtyarr0_write),
 	.dirtyarr1_write(dirtyarr1_write),
 	.lru_write(lru_write),
+	/* data for loads */
 	.lru_in(lru_in),
-	.dirtyarr0_write(dirtyarr0_write),
-	.dirtyarr1_write(dirtyarr1_write),
+
+	/* control <- datapath */
+	/* outputs for state logic */
+	.dirtyarr0_out(dirtyarr0_out),
+	.dirtyarr1_out(dirtyarr1_out),
 	.lru_out(lru_out),
 	.datawrite_decoder0(datawrite_decoder0),
 	.datawrite_decoder1(datawrite_decoder1),
@@ -83,11 +88,16 @@ cache_controller cache_controller
 
 cache_datapath cache_datapath
 (
+	/* internal signals */
+	/* control -> datapath */
+	/* muxes */
 	.datawordmux_sel(datawordmux_sel),
 	.datawritemux_sel(datawritemux_sel),
 	.membytemux_sel(membytemux_sel),
 	.datawaymux_sel(datawaymux_sel),
 	.datainmux_sel(datainmux_sel),
+	/* load signals */
+	/* control -> datapath */
 	.dataarr0_write(dataarr0_write),
 	.dataarr1_write(dataarr1_write),
 	.valid0_write(valid0_write),
@@ -97,14 +107,33 @@ cache_datapath cache_datapath
 	.dirtyarr0_write(dirtyarr0_write),
 	.dirtyarr1_write(dirtyarr1_write),
 	.lru_write(lru_write),
+	/* datas */
+	/* inputs */
 	.lru_in(lru_in),
-	.dirtyarr0_write(dirtyarr0_write),
-	.dirtyarr1_write(dirtyarr1_write),
+	/* outputs */
+	/* control <- datapath */
+	.dirtyarr0_out(dirtyarr0_out),
+	.dirtyarr1_out(dirtyarr1_out),
 	.lru_out(lru_out),
 	.datawrite_decoder0(datawrite_decoder0),
 	.datawrite_decoder1(datawrite_decoder1),
 	.ishit0_out(ishit0_out),
-	.ishit1_out(ishit1_out)
+	.ishit1_out(ishit1_out),
+
+	/* pmem signals */
+	.pmem_rdata(pmem_rdata),
+	.pmem_wdata(pmem_wdata),
+	.pmem_address(pmem_address),
+
+	/* cpu signals */
+	.mem_address(mem_address),
+	.offset(mem_address[4:1]),
+	.index(mem_address[7:4]),
+	.tag(mem_address[15:8]), //fix this, cant count
+	.mem_wdata(mem_wdata),
+	.mem_write(mem_write),
+	.mem_byte_enable(mem_byte_enable),
+	.mem_rdata(mem_rdata)
 );
 
 endmodule : cache

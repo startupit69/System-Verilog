@@ -30,8 +30,8 @@ module cache_datapath
 	input lc3b_block pmem_rdata,
 
 	// output to physical mem
-	output lc3b_block pmem_wdata
-
+	output lc3b_block pmem_wdata,
+	output lc3b_word pmem_address,
 
 	//input from control
 	/* muxes */
@@ -234,6 +234,17 @@ mux8 #(.width(128)) datawritemux
 	.h({mem_wdata, datawaymux_out[111:0]}),
 	.out(datawordmux_out)
 );
+
+mux2 #(.width(16)) addressmux
+(
+	.sel(addressmux_sel),
+	.a(/*tag[way n],4'b0*/),
+	.b(mem_address),
+	.f(pmem_address)
+
+);
+
+
 /*======================================================*/
 /* 					CALC HIT CALC HIT				*/
 /*======================================================*/
@@ -245,7 +256,7 @@ hitbox hitbox
 	.valid0_out(valid0_out),
 	.valid1_out(valid1_out),
 	.ishit0_out(ishit0_out),
-	.ishit1_out(ishit0_out)
+	.ishit1_out(ishit0_out),
 );
 
 

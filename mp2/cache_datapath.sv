@@ -20,7 +20,6 @@ module cache_datapath
 	input lc3b_offset3 offset,
 	input lc3b_tag tag,
 	input lc3_word mem_wdata,
-	input logic mem_read,
 	input logic mem_write,
 	input lc3b_mem_wmask mem_byte_enable,
 
@@ -50,15 +49,12 @@ module cache_datapath
 	input logic tag1_write,
 	input logic dirtyarr0_write,
 	input logic dirtyarr1_write,
+
 	input logic lru_write,
 	input logic lru_in,
 
 	//output to control
 	/* used to determin hit in control*/
-	output lc3b_tag cmp_tag0,
-	output lc3b_tag cmp_tag1,
-	output logic valid0_out,
-	output logic valid1_out,
 	output logic dirtyarr0_out,
 	output logic dirtyarr1_out
 	/* LRU stuff */
@@ -238,7 +234,19 @@ mux8 #(.width(128)) datawritemux
 	.h({mem_wdata, datawaymux_out[111:0]}),
 	.out(datawordmux_out)
 );
-
+/*======================================================*/
+/* 					CALC HIT CALC HIT				*/
+/*======================================================*/
+hitbox hitbox
+(
+	.tag0_out(tag0_out),
+	.tag1_out(tag1_out),
+	.tag(tag),
+	.valid0_out(valid0_out),
+	.valid1_out(valid1_out),
+	.ishit0_out(ishit0_out),
+	.ishit1_out(ishit0_out)
+);
 
 
 

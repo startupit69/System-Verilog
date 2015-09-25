@@ -3,11 +3,8 @@ import lc3b_types::*;
 module cache_control
 (
 	//input from datapath
-	input lc3b_tag cmp_tag0,
-	input lc3b_tag cmp_tag1,
-	input logic valid0,
-	input logic valid1,
-
+	input logic ishit0_out,
+	input logic ishit1_out,
 
 	//output to datapath
 	/*muxes*/
@@ -26,7 +23,6 @@ module cache_control
 	output logic dirtyarr0_write,
 	output logic dirtyarr1_write,
 	output logic lru_write
-
 
 	//input from cpu
 

@@ -7,7 +7,9 @@ module cache_control
 	input logic ishit1_out,
 	input logic dirtyarr0_out,
 	input logic dirtyarr1_out,
-	input logic 
+	input logic datawrite_decoder0,
+	input logic datawrite_decoder1,
+	input logic lru_out,
 
 	//output to datapath
 	/*muxes*/
@@ -25,15 +27,10 @@ module cache_control
 	output logic tag1_write,
 	output logic dirtyarr0_write,
 	output logic dirtyarr1_write,
-	output logic lru_write
+	output logic lru_write,
 
-	//input from cpu
-
-	//output to cpu
-
-	//input from physical memory
-
-	//output to physical memory
+	/* control->pmem */
+	output logic pmem_write
 
 );
 
@@ -55,8 +52,42 @@ begin : state_actions
 	datawaymux_sel = 2'b00;
 	datainmux_sel = 2'b00;
 
+	case(state)
+		s_idle:begin
+			/* do nothing */
+		end
 
+		s_hit:begin
 
+		end
+
+		s_replace:begin
+			pmem_write
+		end
+	endcase
+end
+
+always_comb
+begin : next_state_logic
+	next_state = state;
+
+	case(state)
+		s_idle:begin
+			if(ishit0_out == 1 || ishit0_out == 1)
+				next_state = s_hit;
+			else
+
+		end
+		s_evict:begin
+			
+		end
+		s_replace:begin
+
+		end
+		s_hit:begin
+
+		end
+	endcase
 end
 
 always_ff @(posedge clk)

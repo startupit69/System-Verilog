@@ -83,7 +83,10 @@ cache_controller cache_controller
 	.datawrite_decoder0(datawrite_decoder0),
 	.datawrite_decoder1(datawrite_decoder1),
 	.ishit0_out(ishit0_out),
-	.ishit1_out(ishit1_out)
+	.ishit1_out(ishit1_out),
+
+	/* control -> pmem */
+	.pmem_write(pmem_write)
 );
 
 cache_datapath cache_datapath

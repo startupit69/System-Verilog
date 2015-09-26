@@ -8,14 +8,28 @@ module hitbox
 	input logic valid0_out,
 	input logic valid1_out,
 	output logic ishit0_out,
-	output logic ishit1_out,
+	output logic ishit1_out
 );
 
+logic tag0_cmp;
+logic tag1_cmp;
+
 always_comb
-begin
-	if(tag == tag0_out && valid0_out)
-		ishit0_out = 1;
-	if(tag == tag1_out && valid1_out)
-		ishit1_out = 1;
-end
+	begin
+		if(tag == tag0_out && valid0_out)
+		begin
+			ishit0_out = 1;
+			ishit1_out = 0;
+		end
+		else if(tag == tag1_out && valid1_out)
+		begin
+			ishit1_out = 1;
+			ishit0_out = 0;
+		end
+		else
+		begin
+			ishit1_out = 0;
+			ishit0_out = 0;
+		end
+	end
 endmodule : hitbox

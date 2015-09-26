@@ -24,19 +24,7 @@ logic mem_address;
 
 cpu cpu
 ( 
-	.clk(clk)
-	.mem_resp(mem_resp),
-	.mem_rdata(mem_rdata),
-	.mem_read(mem_read),
-	.mem_write(mem_write),
-	.mem_byte_enable(mem_byte_enable),
-	.mem_address(mem_address),
-	.mem_wdata(mem_wdata),
-);
-
-cache cache
-(
-	.clk(clk)
+	.clk(clk),
 	.mem_resp(mem_resp),
 	.mem_rdata(mem_rdata),
 	.mem_read(mem_read),
@@ -44,14 +32,25 @@ cache cache
 	.mem_byte_enable(mem_byte_enable),
 	.mem_address(mem_address),
 	.mem_wdata(mem_wdata)
-	//physical memory
+);
 
+cache cache
+(
+	.clk(clk),
+	.mem_resp(mem_resp),
+	.mem_rdata(mem_rdata),
+	.mem_read(mem_read),
+	.mem_write(mem_write),
+	.mem_byte_enable(mem_byte_enable),
+	.mem_address(mem_address),
+	.mem_wdata(mem_wdata),
+	//physical memory
 	.pmem_resp(pmem_resp),
 	.pmem_rdata(pmem_rdata),
 	.pmem_read(pmem_read),
 	.pmem_write(pmem_write),
-	.pmem_address()
-
+	.pmem_address(pmem_address),
+	.pmem_wdata(pmem_wdata)
 );
 
 endmodule : mp2

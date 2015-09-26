@@ -165,7 +165,7 @@ array #(.width(1)) lruarr
 /* 					DATA OUT/IN MUXES					*/
 /*======================================================*/
 /* This mux determins which way to pull data from */
-mux2 datawaymux
+mux2 #(.width(128)) datawaymux
 (
 	.sel(~ishit1_out),
 	.a(data0_out),
@@ -173,7 +173,7 @@ mux2 datawaymux
 	.f(datawaymux_out)
 );
 /* This mux determines which data goes into the array or out to physical memory, either from physical memory or a new write */
-mux2 datainmux
+mux2 #(.width(128)) datainmux
 (
 	.sel(datainmux_sel),
 	.a(pmem_rdata),

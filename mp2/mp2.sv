@@ -2,7 +2,6 @@ import lc3b_types::*;
 
 module mp2
 (
-	/* TODO MAKE TYPES */
 	input logic clk,
 	/* mem signals */
 	input pmem_resp,
@@ -14,12 +13,12 @@ module mp2
 );
 
 logic mem_resp;
-logic mem_rdata;
+lc3b_word mem_rdata;
 logic mem_read;
 logic mem_write;
-logic mem_byte_enable;
-logic mem_wdata;
-logic mem_address;
+logic [1:0] mem_byte_enable;
+lc3b_word mem_wdata;
+lc3b_word mem_address;
 
 
 cpu cpu

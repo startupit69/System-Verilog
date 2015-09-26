@@ -16,7 +16,7 @@ module cache
 
 	//input from pmem
 	input pmem_resp,
-	input pmem_rdata,
+	input lc3b_block pmem_rdata,
 
 	//output to pmem
 	output pmem_read,
@@ -56,10 +56,6 @@ cache_control cache_control
 	.clk(clk),
 	/* control -> datapath */
 	/* mux sel*/
-	.datawordmux_sel(datawordmux_sel),
-	.datawritemux_sel(datawritemux_sel),
-	.membytemux_sel(membytemux_sel),
-	.datawaymux_sel(datawaymux_sel),
 	.datainmux_sel(datainmux_sel),
 	.addressmux_sel(addressmux_sel),
 	/* loads */  
@@ -71,7 +67,6 @@ cache_control cache_control
 	.tag1_write(tag1_write),
 	.dirtyarr0_write(dirtyarr0_write),
 	.dirtyarr1_write(dirtyarr1_write),
-	
 	/* control <- datapath */
 	/* outputs for state logic */
 	.dirtyarr0_out(dirtyarr0_out),
@@ -88,18 +83,19 @@ cache_control cache_control
 	.pmem_resp(pmem_resp),
 	
 	/* control -> cpu */
-	.mem_resp(mem_resp)
+	.mem_resp(mem_resp),
+	
+	/* cpu <- control */
+	.mem_write(mem_write),
+	.mem_read(mem_read)
 );
 
 cache_datapath cache_datapath
 (
+	.clk(clk),
 	/* internal signals */
 	/* control -> datapath */
 	/* muxes */
-	.datawordmux_sel(datawordmux_sel),
-	.datawritemux_sel(datawritemux_sel),
-	.membytemux_sel(membytemux_sel),
-	.datawaymux_sel(datawaymux_sel),
 	.datainmux_sel(datainmux_sel),
 	.addressmux_sel(addressmux_sel),
 	/* load signals */
@@ -130,7 +126,7 @@ cache_datapath cache_datapath
 	.mem_address(mem_address),
 	.offset(mem_address[3:1]),
 	.index(mem_address[6:4]),
-	.tag(mem_address[15:7]), //fix this, cant count
+	.tag(mem_address[15:7]),
 	.mem_wdata(mem_wdata),
 	.mem_write(mem_write),
 	.mem_byte_enable(mem_byte_enable),

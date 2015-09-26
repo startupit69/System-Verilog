@@ -1,4 +1,4 @@
-import lc3b_types::*;
+
 
 module cache_control
 (
@@ -8,16 +8,10 @@ module cache_control
 	input logic ishit1_out,
 	input logic dirtyarr0_out,
 	input logic dirtyarr1_out,
-	input logic datawrite_decoder0,
-	input logic datawrite_decoder1,
 	input logic lru_out,
 
 	//output to datapath
 	/*muxes*/
-	output lc3b_index datawordmux_sel,
-	output lc3b_index datawritemux_sel,
-	output logic [1:0] membytemux_sel,
-	output logic [1:0] datawaymux_sel,
 	output logic datainmux_sel,
 	output logic [1:0] addressmux_sel,
 	/*write*/
@@ -29,7 +23,6 @@ module cache_control
 	output logic tag1_write,
 	output logic dirtyarr0_write,
 	output logic dirtyarr1_write,
-	output logic lru_write,
 
 	/* control->pmem */
 	output logic pmem_write,
@@ -57,14 +50,9 @@ enum int unsigned {
 
 always_comb
 begin : state_actions
-
-	datawordmux_sel = 3'b000;
-	datawritemux_sel = 3'b000;
-	membytemux_sel = 2'b00;
-	datawaymux_sel = 2'b00;
 	datainmux_sel = 1'b0;
-	dataarr1_write = 1;
-	dataarr0_write = 1;
+	dataarr1_write = 0;
+	dataarr0_write = 0;
 	valid0_write = 0;
 	valid1_write = 0;
 	tag0_write = 0;
@@ -72,25 +60,41 @@ begin : state_actions
 	dirtyarr0_write = 0;
 	dirtyarr1_write = 0;
 	pmem_write = 0;
-	lru_write = 0;
 	addressmux_sel = 2'b00;
 	mem_resp = 0;
 	pmem_read = 0;
 
+
 	case(state)
 		s_idle:begin
 			/* handle the hits here */
+			// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 			if(mem_read && (ishit0_out || ishit1_out) )
 			begin
 				//read hit
 				mem_resp = 1; //signal data is ready
-				lru_write = 1; //signal to update lru
+				if(ishit0_out)
+				begin
+					//load way 0
+					dirtyarr0_write = 1;
+					tag0_write = 1;
+					valid0_write = 1;
+					dataarr0_write = 1;
+				end
+				else
+				begin
+					//load way 1					
+					dirtyarr1_write = 1;
+					tag1_write = 1;
+					valid1_write = 1;
+					dataarr1_write = 1;
+				end
 			end
 			else if(mem_write && (ishit0_out || ishit1_out))
 			begin
 				//write
+				// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 				datainmux_sel = 1; //signal our mux to take the superconstructor word 
-				lru_write = 1; 	// signal to update lru
 				if(ishit0_out)
 				begin
 					//load way 0
@@ -113,6 +117,7 @@ begin : state_actions
 		s_evict:begin
 			/* writing cache to physical memory */
 			// choose which address to write to
+			// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 			if(lru_out)
 			begin
 				//way 1
@@ -180,7 +185,7 @@ begin : next_state_logic
 			if(!pmem_resp)
 				next_state = s_evict;
 			else
-				next_state = s_idle;
+				next_state = s_replace;
 		end
 	endcase
 end

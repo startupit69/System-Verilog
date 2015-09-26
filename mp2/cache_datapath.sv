@@ -31,14 +31,10 @@ module cache_datapath
 
 	// output to physical mem
 	output lc3b_word pmem_address,
-	output logic pmem_wdata,
+	output lc3b_block pmem_wdata,
 
 	//input from control
 	/* muxes */
-	input lc3b_index datawordmux_sel,
-	input lc3b_index datawritemux_sel,
-	input logic [1:0] membytemux_sel,
-	input logic [1:0] datawaymux_sel,
 	input logic datainmux_sel,
 	input logic [1:0] addressmux_sel,
 	
@@ -167,7 +163,7 @@ array #(.width(1)) lruarr
 /* This mux determins which way to pull data from */
 mux2 #(.width(128)) datawaymux
 (
-	.sel(~ishit1_out),
+	.sel(ishit1_out),
 	.a(data0_out),
 	.b(data1_out),
 	.f(datawaymux_out)

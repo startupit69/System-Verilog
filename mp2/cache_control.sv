@@ -23,6 +23,7 @@ module cache_control
 	output logic tag1_write,
 	output logic dirtyarr0_write,
 	output logic dirtyarr1_write,
+	output logic lru_write,
 
 	/* control->pmem */
 	output logic pmem_write,
@@ -63,38 +64,24 @@ begin : state_actions
 	addressmux_sel = 2'b00;
 	mem_resp = 0;
 	pmem_read = 0;
+	lru_write = 0;
 
 
 	case(state)
 		s_idle:begin
 			/* handle the hits here */
-			// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 			if(mem_read && (ishit0_out || ishit1_out) )
 			begin
 				//read hit
 				mem_resp = 1; //signal data is ready
-				if(ishit0_out)
-				begin
-					//load way 0
-					dirtyarr0_write = 1;
-					tag0_write = 1;
-					valid0_write = 1;
-					dataarr0_write = 1;
-				end
-				else
-				begin
-					//load way 1					
-					dirtyarr1_write = 1;
-					tag1_write = 1;
-					valid1_write = 1;
-					dataarr1_write = 1;
-				end
+				lru_write = 1; // update LRU
 			end
 			else if(mem_write && (ishit0_out || ishit1_out))
 			begin
 				//write
 				// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 				datainmux_sel = 1; //signal our mux to take the superconstructor word 
+				lru_write = 1; // update LRU
 				if(ishit0_out)
 				begin
 					//load way 0
@@ -102,6 +89,7 @@ begin : state_actions
 					tag0_write = 1;
 					valid0_write = 1;
 					dataarr0_write = 1;
+					
 				end
 				else
 				begin
@@ -143,6 +131,7 @@ begin : state_actions
 				dirtyarr1_write = 1;
 				tag1_write = 1;
 				valid1_write = 1;
+				dataarr1_write = 1;
 			end
 			else
 			begin
@@ -150,6 +139,7 @@ begin : state_actions
 				dirtyarr0_write = 1;
 				tag0_write = 1;
 				valid0_write = 1;
+				dataarr0_write = 1;
 			end
 		end
 

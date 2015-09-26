@@ -47,6 +47,7 @@ module cache_datapath
 	input logic tag1_write,
 	input logic dirtyarr0_write,
 	input logic dirtyarr1_write,
+	input logic lru_write,
 
 	//output to control
 	/* used to determin hit in control*/
@@ -67,12 +68,9 @@ lc3b_block data0_out;
 lc3b_block data1_out;
 lc3b_block datawaymux_out;
 lc3b_block datablock_out;
-logic lru_write;
 lc3b_block superblockconstructor_out;
 logic valid0_out;
 logic valid1_out;
-
-assign lru_write = ishit1_out || ishit0_out;
 
 
 /*======================================================*/

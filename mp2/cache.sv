@@ -42,6 +42,7 @@ logic tag0_write;
 logic tag1_write;
 logic dirtyarr0_write;
 logic dirtyarr1_write;
+logic lru_write;
 
 logic dirtyarr0_out;
 logic dirtyarr1_out;
@@ -67,6 +68,7 @@ cache_control cache_control
 	.tag1_write(tag1_write),
 	.dirtyarr0_write(dirtyarr0_write),
 	.dirtyarr1_write(dirtyarr1_write),
+	.lru_write(lru_write),
 	/* control <- datapath */
 	/* outputs for state logic */
 	.dirtyarr0_out(dirtyarr0_out),
@@ -108,7 +110,7 @@ cache_datapath cache_datapath
 	.tag1_write(tag1_write),
 	.dirtyarr0_write(dirtyarr0_write),
 	.dirtyarr1_write(dirtyarr1_write),
-
+	.lru_write(lru_write),
 	/* outputs */
 	/* control <- datapath */
 	.dirtyarr0_out(dirtyarr0_out),

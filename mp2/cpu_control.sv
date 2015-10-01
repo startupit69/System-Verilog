@@ -256,6 +256,7 @@ begin : state_actions
                 loadmux_sel = 2'b10;
                 pcoffsetmux_sel = 0;
                 load_regfile = 1;
+					 load_cc = 1;
             end
 
             /* LDI */

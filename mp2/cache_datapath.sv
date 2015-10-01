@@ -103,7 +103,7 @@ array #(.width(128))dataarr0
 array #(.width(1))dirtyarr0
 (
 	.clk(clk),
-	.write(dirtyarr0_write && ~ishit0_out),
+	.write(dirtyarr0_write /*&& ~ishit0_out*/),
 	.index(index),
 	.datain(mem_write),
 	.dataout(dirtyarr0_out)
@@ -138,7 +138,7 @@ array #(.width(128))dataarr1
 array #(.width(1))dirtyarr1
 (
 	.clk(clk),
-	.write(dirtyarr1_write && ~ishit1_out),
+	.write(dirtyarr1_write /*&& ~ishit1_out*/),
 	.index(index),
 	.datain(mem_write),
 	.dataout(dirtyarr1_out)
@@ -211,7 +211,7 @@ mux4 #(.width(16)) addressmux
 
 mux2 #(.width(128)) pmemwritemux
 (
-	.sel(~lru_out),
+	.sel(lru_out), //bug here, mixed data for stores
 	.a(data0_out),
 	.b(data1_out),
 	.f(pmem_wdata)

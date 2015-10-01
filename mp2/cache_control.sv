@@ -82,6 +82,7 @@ begin : state_actions
 				// TODO LRU SHOULD ONLY BE WRITTEN TO IN IDLE
 				datainmux_sel = 1; //signal our mux to take the superconstructor word 
 				lru_write = 1; // update LRU
+				mem_resp = 1; //signal data is ready CHANGED IN MP-FINAL!!!
 				if(ishit0_out)
 				begin
 					//load way 0
@@ -89,6 +90,7 @@ begin : state_actions
 					tag0_write = 1;
 					valid0_write = 1;
 					dataarr0_write = 1;
+					
 					
 				end
 				else
@@ -131,7 +133,8 @@ begin : state_actions
 				dirtyarr1_write = 1;
 				tag1_write = 1;
 				valid1_write = 1;
-				dataarr1_write = 1;
+				if(pmem_resp)
+					dataarr1_write = 1;
 			end
 			else
 			begin
@@ -139,7 +142,8 @@ begin : state_actions
 				dirtyarr0_write = 1;
 				tag0_write = 1;
 				valid0_write = 1;
-				dataarr0_write = 1;
+				if(pmem_resp)
+					dataarr0_write = 1;
 			end
 		end
 

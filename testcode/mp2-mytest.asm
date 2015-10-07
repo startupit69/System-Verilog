@@ -1,3 +1,4 @@
+
 ORIGIN 0
 SEGMENT CodeSegment:
 
@@ -15,13 +16,37 @@ Start:
     LDR R2, R1, BA49  ; miss
     LDR R3, R1, BA57  ; miss 
     
-    LDR R2, R1, BA01  ; hit
-    ADD R2, R2, 1     ; hit
-    STR R2, R2, BA01  ; hit but evict      
-    LDR R2, R1, BA01  ; miss 
-    ADD R3, R3, 1     ; hit
-    STR R3, R3, BA57  ; hit but evict
-    LDR R3, R4, BA57  ; hit 
+    ;; check replace states
+    LDR R2, R1, BA01  
+    ADD R2, R2, 1     
+    STR R2, R1, BA01       
+    LDR R2, R1, BA01  
+    ADD R3, R3, 1     
+    STR R3, R1, BA57 
+    LDR R3, R1, BA57  
+    STR R5, R0, BA01  
+    STR R5, R0, BA02 
+    STR R3, R0, BA24
+    STR R2, R1, BA69 
+    LDR R3, R0, BA01
+    LDR R2, R1, BA66
+    LDR R5, R1, BA09
+    STR R4, R0, BA01
+    LDR R4, R0, BA01
+    LEA R3, BLOCKC
+    LDR R4, R3, BA65
+    LDR R5, R3, BA72
+    LDR R6, R3, BA80
+    LDR R6, R3, BA88
+    LDR R7, R3, BA90
+    STR R4, R1, BA30
+    ADD R6, R5, 10
+    STR R6, R3, BA88
+    LDR R6, R3, BA87
+    LDR R4, R3, BA89
+    
+    BRnzp cont
+
 
 INF:
     BRnzp INF         ; loop
@@ -100,6 +125,36 @@ BA62: DATA2 4xCEED;
 BA63: DATA2 4xCEED;
 BA64: DATA2 4xCEED;
 
+cont:
+
+    LDR R2, R1, BA01  
+    ADD R2, R2, 1     
+    STR R2, R1, BA01       
+    LDR R2, R1, BA01 
+    ADD R3, R3, 1    
+    STR R3, R1, BA57 
+    LDR R3, R1, BA57  
+    STR R5, R0, BA01  
+    STR R5, R0, BA02 
+    STR R3, R0, BA24
+    STR R2, R1, BA69 
+    LDR R3, R0, BA01
+    ;; check evict state
+    LEA R3, BLOCKC
+    LDR R4, R3, BA65
+    LDR R5, R3, BA72
+    LDR R6, R3, BA80
+    LDR R6, R3, BA88
+    LDR R7, R3, BA90
+    STR R4, R1, BA30
+    ADD R6, R5, 10
+    STR R6, R3, BA88
+    LDR R6, R3, BA87
+    LDR R4, R3, BA89
+
+    BRnzp INF
+
+
 SEGMENT BLOCKC:
 BA65: DATA2 4x6004;
 BA66: DATA2 4x6004;
@@ -107,7 +162,6 @@ BA67: DATA2 4x6004;
 BA68: DATA2 4x6004;
 BA69: DATA2 4x6004;
 BA70: DATA2 4x6004;
-BA71: DATA2 4x6004;
 BA71: DATA2 4x6004;
   
 BA72: DATA2 4xBAAF;

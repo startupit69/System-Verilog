@@ -1,0 +1,15 @@
+         ps         /mp2_tb/dut/cache/pmem_wdata             
+          delta        /mp2_tb/dut/cache/pmem_address        
+                           /mp2_tb/dut/cache/pmem_write      
+          0  +0 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx x 
+          0  +1 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx 0 
+    5165000  +3 600d600d600d600d600d600d600d0030 0154 1 
+    5395000  +5 600d600d600d600d600d600d600d0030 0050 0 
+    5705000  +3 52205220522052205220522000b05220 0058 1 
+    5935000  +5 52205220522052205220522000b05220 00d0 0 
+    6235000  +6 baadbaadbaadbaadbaad0130baadbaad 00d2 1 
+    6465000  +5 baadbaadbaadbaadbaad0130baadbaad 0150 0 
+    6775000  +6 600d600d600d0130600d600d600d0030 015a 1 
+    7005000  +5 600d600d600d0130600d600d600d0030 0050 0 
+   11605000  +6 600d600c0060600d600d600d600d60fa 00b4 1 
+   11835000  +5 600d600c0060600d600d600d600d60fa 0030 0 

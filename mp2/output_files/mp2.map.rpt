@@ -1,0 +1,1073 @@
+Analysis & Synthesis report for mp2
+Tue Oct  6 20:42:41 2015
+Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Analysis & Synthesis Summary
+  3. Analysis & Synthesis Settings
+  4. Parallel Compilation
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. State Machine - |mp2|cache:cache|cache_control:cache_control|state
+  9. State Machine - |mp2|cpu:cpu|cpu_control:cpu_control|state
+ 10. Registers Removed During Synthesis
+ 11. General Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:pcmux
+ 14. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:pcoffsetmux
+ 15. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:pc
+ 16. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:storemux
+ 17. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:regfilemux
+ 18. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:cc
+ 19. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:loadmux
+ 20. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj11
+ 21. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj9
+ 22. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj6
+ 23. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:imm5_sext
+ 24. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:imm4_sext
+ 25. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:offset6_sext
+ 26. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|plus2:plus2
+ 27. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:marmux
+ 28. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:mar
+ 29. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:mdrmux
+ 30. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:mdr
+ 31. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:alumux
+ 32. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|zext:zextmem_low
+ 33. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|zext:zextmem_high
+ 34. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adjzext:trapzext
+ 35. Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:maradjmux
+ 36. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:validarr0
+ 37. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:tagarr0
+ 38. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dataarr0
+ 39. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dirtyarr0
+ 40. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:validarr1
+ 41. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:tagarr1
+ 42. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dataarr1
+ 43. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dirtyarr1
+ 44. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:lruarr
+ 45. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:datawaymux
+ 46. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:datainmux
+ 47. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux8:datawordmux
+ 48. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux4:addressmux
+ 49. Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:pmemwritemux
+ 50. Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|mux4:addressmux"
+ 51. Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|array:validarr1"
+ 52. Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|array:validarr0"
+ 53. Port Connectivity Checks: "cpu:cpu|cpu_datapath:cpu_datapath|mux4:loadmux"
+ 54. Elapsed Time Per Partition
+ 55. Analysis & Synthesis Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2014 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                ;
++-------------------------------+---------------------------------------------+
+; Analysis & Synthesis Status   ; Successful - Tue Oct  6 20:42:41 2015       ;
+; Quartus II 32-bit Version     ; 13.1.4 Build 182 03/12/2014 SJ Full Version ;
+; Revision Name                 ; mp2                                         ;
+; Top-level Entity Name         ; mp2                                         ;
+; Family                        ; Stratix III                                 ;
+; Logic utilization             ; N/A                                         ;
+;     Combinational ALUTs       ; 1,627                                       ;
+;     Memory ALUTs              ; 0                                           ;
+;     Dedicated logic registers ; 2,468                                       ;
+; Total registers               ; 2468                                        ;
+; Total pins                    ; 276                                         ;
+; Total virtual pins            ; 0                                           ;
+; Total block memory bits       ; 0                                           ;
+; DSP block 18-bit elements     ; 0                                           ;
+; Total PLLs                    ; 0                                           ;
+; Total DLLs                    ; 0                                           ;
++-------------------------------+---------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Settings                                                                                             ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Option                                                                          ; Setting            ; Default Value      ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+; Device                                                                          ; EP3SE50F780C2      ;                    ;
+; Top-level entity name                                                           ; mp2                ; mp2                ;
+; Family name                                                                     ; Stratix III        ; Cyclone IV GX      ;
+; Use smart compilation                                                           ; Off                ; Off                ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation      ; On                 ; On                 ;
+; Enable compact report table                                                     ; Off                ; Off                ;
+; Restructure Multiplexers                                                        ; Auto               ; Auto               ;
+; MLAB Add Timing Constraints For Mixed-Port Feed-Through Mode Setting Don't Care ; Off                ; Off                ;
+; Create Debugging Nodes for IP Cores                                             ; Off                ; Off                ;
+; Preserve fewer node names                                                       ; On                 ; On                 ;
+; Disable OpenCore Plus hardware evaluation                                       ; Off                ; Off                ;
+; Verilog Version                                                                 ; Verilog_2001       ; Verilog_2001       ;
+; VHDL Version                                                                    ; VHDL_1993          ; VHDL_1993          ;
+; State Machine Processing                                                        ; Auto               ; Auto               ;
+; Safe State Machine                                                              ; Off                ; Off                ;
+; Extract Verilog State Machines                                                  ; On                 ; On                 ;
+; Extract VHDL State Machines                                                     ; On                 ; On                 ;
+; Ignore Verilog initial constructs                                               ; Off                ; Off                ;
+; Iteration limit for constant Verilog loops                                      ; 5000               ; 5000               ;
+; Iteration limit for non-constant Verilog loops                                  ; 250                ; 250                ;
+; Add Pass-Through Logic to Inferred RAMs                                         ; On                 ; On                 ;
+; Infer RAMs from Raw Logic                                                       ; On                 ; On                 ;
+; Parallel Synthesis                                                              ; On                 ; On                 ;
+; DSP Block Balancing                                                             ; Auto               ; Auto               ;
+; NOT Gate Push-Back                                                              ; On                 ; On                 ;
+; Power-Up Don't Care                                                             ; On                 ; On                 ;
+; Remove Redundant Logic Cells                                                    ; Off                ; Off                ;
+; Remove Duplicate Registers                                                      ; On                 ; On                 ;
+; Ignore CARRY Buffers                                                            ; Off                ; Off                ;
+; Ignore CASCADE Buffers                                                          ; Off                ; Off                ;
+; Ignore GLOBAL Buffers                                                           ; Off                ; Off                ;
+; Ignore ROW GLOBAL Buffers                                                       ; Off                ; Off                ;
+; Ignore LCELL Buffers                                                            ; Off                ; Off                ;
+; Ignore SOFT Buffers                                                             ; On                 ; On                 ;
+; Limit AHDL Integers to 32 Bits                                                  ; Off                ; Off                ;
+; Optimization Technique                                                          ; Balanced           ; Balanced           ;
+; Carry Chain Length                                                              ; 70                 ; 70                 ;
+; Auto Carry Chains                                                               ; On                 ; On                 ;
+; Auto Open-Drain Pins                                                            ; On                 ; On                 ;
+; Perform WYSIWYG Primitive Resynthesis                                           ; Off                ; Off                ;
+; Auto ROM Replacement                                                            ; On                 ; On                 ;
+; Auto RAM Replacement                                                            ; On                 ; On                 ;
+; Auto DSP Block Replacement                                                      ; On                 ; On                 ;
+; Auto Shift Register Replacement                                                 ; Auto               ; Auto               ;
+; Allow Shift Register Merging across Hierarchies                                 ; Auto               ; Auto               ;
+; Auto Clock Enable Replacement                                                   ; On                 ; On                 ;
+; Strict RAM Replacement                                                          ; Off                ; Off                ;
+; Allow Synchronous Control Signals                                               ; On                 ; On                 ;
+; Force Use of Synchronous Clear Signals                                          ; Off                ; Off                ;
+; Auto RAM Block Balancing                                                        ; On                 ; On                 ;
+; Auto RAM to Logic Cell Conversion                                               ; Off                ; Off                ;
+; Auto Resource Sharing                                                           ; Off                ; Off                ;
+; Allow Any RAM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any ROM Size For Recognition                                              ; Off                ; Off                ;
+; Allow Any Shift Register Size For Recognition                                   ; Off                ; Off                ;
+; Use LogicLock Constraints during Resource Balancing                             ; On                 ; On                 ;
+; Ignore translate_off and synthesis_off directives                               ; Off                ; Off                ;
+; Timing-Driven Synthesis                                                         ; On                 ; On                 ;
+; Report Parameter Settings                                                       ; On                 ; On                 ;
+; Report Source Assignments                                                       ; On                 ; On                 ;
+; Report Connectivity Checks                                                      ; On                 ; On                 ;
+; Ignore Maximum Fan-Out Assignments                                              ; Off                ; Off                ;
+; Synchronization Register Chain Length                                           ; 2                  ; 2                  ;
+; PowerPlay Power Optimization                                                    ; Normal compilation ; Normal compilation ;
+; HDL message level                                                               ; Level2             ; Level2             ;
+; Suppress Register Optimization Related Messages                                 ; Off                ; Off                ;
+; Number of Removed Registers Reported in Synthesis Report                        ; 5000               ; 5000               ;
+; Number of Swept Nodes Reported in Synthesis Report                              ; 5000               ; 5000               ;
+; Number of Inverted Registers Reported in Synthesis Report                       ; 100                ; 100                ;
+; Clock MUX Protection                                                            ; On                 ; On                 ;
+; Auto Gated Clock Conversion                                                     ; Off                ; Off                ;
+; Block Design Naming                                                             ; Auto               ; Auto               ;
+; SDC constraint protection                                                       ; Off                ; Off                ;
+; Synthesis Effort                                                                ; Auto               ; Auto               ;
+; Shift Register Replacement - Allow Asynchronous Clear Signal                    ; On                 ; On                 ;
+; Pre-Mapping Resynthesis Optimization                                            ; Off                ; Off                ;
+; Analysis & Synthesis Message Level                                              ; Medium             ; Medium             ;
+; Disable Register Merging Across Hierarchies                                     ; Auto               ; Auto               ;
+; Resource Aware Inference For Block RAM                                          ; On                 ; On                 ;
+; Synthesis Seed                                                                  ; 1                  ; 1                  ;
++---------------------------------------------------------------------------------+--------------------+--------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 4           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-4         ; < 0.1%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                           ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                       ; Library ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------+---------+
+; superblockconstructor.sv         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/superblockconstructor.sv ;         ;
+; mux8.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/mux8.sv                  ;         ;
+; array.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/array.sv                 ;         ;
+; hitbox.sv                        ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/hitbox.sv                ;         ;
+; cpu_datapath.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cpu_datapath.sv          ;         ;
+; cpu_control.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cpu_control.sv           ;         ;
+; cpu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cpu.sv                   ;         ;
+; cache_datapath.sv                ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cache_datapath.sv        ;         ;
+; cache_control.sv                 ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cache_control.sv         ;         ;
+; cache.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/cache.sv                 ;         ;
+; adjzext.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/adjzext.sv               ;         ;
+; zext.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/zext.sv                  ;         ;
+; adder.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/adder.sv                 ;         ;
+; mux4.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/mux4.sv                  ;         ;
+; sext.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/sext.sv                  ;         ;
+; mux2.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/mux2.sv                  ;         ;
+; nzp_cmp.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/nzp_cmp.sv               ;         ;
+; lc3b_types.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/lc3b_types.sv            ;         ;
+; adj.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/adj.sv                   ;         ;
+; alu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/alu.sv                   ;         ;
+; gencc.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/gencc.sv                 ;         ;
+; ir.sv                            ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/ir.sv                    ;         ;
+; mp2.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/mp2.sv                   ;         ;
+; plus2.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/plus2.sv                 ;         ;
+; regfile.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/regfile.sv               ;         ;
+; register.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/zachrice/ece411/mp2/register.sv              ;         ;
++----------------------------------+-----------------+------------------------------+----------------------------------------------------+---------+
+
+
++-----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary               ;
++-----------------------------------------------+-----------+
+; Resource                                      ; Usage     ;
++-----------------------------------------------+-----------+
+; Estimated ALUTs Used                          ; 1627      ;
+;     -- Combinational ALUTs                    ; 1627      ;
+;     -- Memory ALUTs                           ; 0         ;
+;     -- LUT_REGs                               ; 0         ;
+; Dedicated logic registers                     ; 2468      ;
+;                                               ;           ;
+; Estimated ALUTs Unavailable                   ; 644       ;
+;     -- Due to unpartnered combinational logic ; 644       ;
+;     -- Due to Memory ALUTs                    ; 0         ;
+;                                               ;           ;
+; Total combinational functions                 ; 1627      ;
+; Combinational ALUT usage by number of inputs  ;           ;
+;     -- 7 input functions                      ; 644       ;
+;     -- 6 input functions                      ; 230       ;
+;     -- 5 input functions                      ; 185       ;
+;     -- 4 input functions                      ; 248       ;
+;     -- <=3 input functions                    ; 320       ;
+;                                               ;           ;
+; Combinational ALUTs by mode                   ;           ;
+;     -- normal mode                            ; 921       ;
+;     -- extended LUT mode                      ; 644       ;
+;     -- arithmetic mode                        ; 62        ;
+;     -- shared arithmetic mode                 ; 0         ;
+;                                               ;           ;
+; Estimated ALUT/register pairs used            ; 4178      ;
+;                                               ;           ;
+; Total registers                               ; 2468      ;
+;     -- Dedicated logic registers              ; 2468      ;
+;     -- I/O registers                          ; 0         ;
+;     -- LUT_REGs                               ; 0         ;
+;                                               ;           ;
+;                                               ;           ;
+; I/O pins                                      ; 276       ;
+; DSP block 18-bit elements                     ; 0         ;
+; Maximum fan-out node                          ; clk~input ;
+; Maximum fan-out                               ; 2468      ;
+; Total fan-out                                 ; 16480     ;
+; Average fan-out                               ; 3.55      ;
++-----------------------------------------------+-----------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                          ;
++--------------------------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
+; Compilation Hierarchy Node                             ; LC Combinationals ; LC Registers ; Block Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 12x12 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                        ; Library Name ;
++--------------------------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
+; |mp2                                                   ; 1627 (0)          ; 2468 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 276  ; 0            ; |mp2                                                                                       ; work         ;
+;    |cache:cache|                                       ; 1099 (0)          ; 2235 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache                                                                           ; work         ;
+;       |cache_control:cache_control|                    ; 15 (15)           ; 3 (3)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_control:cache_control                                               ; work         ;
+;       |cache_datapath:cache_datapath|                  ; 1084 (0)          ; 2232 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath                                             ; work         ;
+;          |array:dataarr0|                              ; 264 (264)         ; 1024 (1024)  ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:dataarr0                              ; work         ;
+;          |array:dataarr1|                              ; 264 (264)         ; 1024 (1024)  ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:dataarr1                              ; work         ;
+;          |array:dirtyarr0|                             ; 2 (2)             ; 8 (8)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:dirtyarr0                             ; work         ;
+;          |array:dirtyarr1|                             ; 2 (2)             ; 8 (8)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:dirtyarr1                             ; work         ;
+;          |array:lruarr|                                ; 18 (18)           ; 8 (8)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:lruarr                                ; work         ;
+;          |array:tagarr0|                               ; 26 (26)           ; 72 (72)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:tagarr0                               ; work         ;
+;          |array:tagarr1|                               ; 26 (26)           ; 72 (72)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:tagarr1                               ; work         ;
+;          |array:validarr0|                             ; 2 (2)             ; 8 (8)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:validarr0                             ; work         ;
+;          |array:validarr1|                             ; 2 (2)             ; 8 (8)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|array:validarr1                             ; work         ;
+;          |hitbox:hitbox|                               ; 9 (9)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|hitbox:hitbox                               ; work         ;
+;          |mux2:datainmux|                              ; 203 (203)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux                              ; work         ;
+;          |mux2:datawaymux|                             ; 120 (120)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datawaymux                             ; work         ;
+;          |mux2:pmemwritemux|                           ; 128 (128)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:pmemwritemux                           ; work         ;
+;          |mux4:addressmux|                             ; 13 (13)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|mux4:addressmux                             ; work         ;
+;          |mux8:datawordmux|                            ; 1 (1)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|mux8:datawordmux                            ; work         ;
+;          |superblockconstructor:superblockconstructor| ; 4 (4)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cache:cache|cache_datapath:cache_datapath|superblockconstructor:superblockconstructor ; work         ;
+;    |cpu:cpu|                                           ; 528 (0)           ; 233 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu                                                                               ; work         ;
+;       |cpu_control:cpu_control|                        ; 61 (61)           ; 38 (38)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_control:cpu_control                                                       ; work         ;
+;       |cpu_datapath:cpu_datapath|                      ; 467 (0)           ; 195 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath                                                     ; work         ;
+;          |adder:pc_add|                                ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|adder:pc_add                                        ; work         ;
+;          |adder:stb_add|                               ; 16 (16)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|adder:stb_add                                       ; work         ;
+;          |alu:alu|                                     ; 188 (188)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu                                             ; work         ;
+;          |gencc:gencc|                                 ; 6 (6)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|gencc:gencc                                         ; work         ;
+;          |ir:ir|                                       ; 1 (1)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|ir:ir                                               ; work         ;
+;          |mux2:mdrmux|                                 ; 49 (49)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux2:mdrmux                                         ; work         ;
+;          |mux2:storemux|                               ; 3 (3)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux2:storemux                                       ; work         ;
+;          |mux4:alumux|                                 ; 19 (19)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:alumux                                         ; work         ;
+;          |mux4:loadmux|                                ; 1 (1)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:loadmux                                        ; work         ;
+;          |mux4:marmux|                                 ; 24 (24)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:marmux                                         ; work         ;
+;          |mux4:pcmux|                                  ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:pcmux                                          ; work         ;
+;          |mux4:regfilemux|                             ; 36 (36)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:regfilemux                                     ; work         ;
+;          |nzp_cmp:ccc_comp|                            ; 2 (2)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|nzp_cmp:ccc_comp                                    ; work         ;
+;          |plus2:plus2|                                 ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|plus2:plus2                                         ; work         ;
+;          |regfile:regfile|                             ; 74 (74)           ; 128 (128)    ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|regfile:regfile                                     ; work         ;
+;          |register:cc|                                 ; 0 (0)             ; 3 (3)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:cc                                         ; work         ;
+;          |register:mar|                                ; 1 (1)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:mar                                        ; work         ;
+;          |register:mdr|                                ; 0 (0)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:mdr                                        ; work         ;
+;          |register:pc|                                 ; 2 (2)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:pc                                         ; work         ;
++--------------------------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+--------------------------------------------------------------------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
+Encoding Type:  One-Hot
++--------------------------------------------------------------------+
+; State Machine - |mp2|cache:cache|cache_control:cache_control|state ;
++-----------------+--------------+-----------------+-----------------+
+; Name            ; state.s_idle ; state.s_replace ; state.s_evict   ;
++-----------------+--------------+-----------------+-----------------+
+; state.s_idle    ; 0            ; 0               ; 0               ;
+; state.s_evict   ; 1            ; 0               ; 1               ;
+; state.s_replace ; 1            ; 1               ; 0               ;
++-----------------+--------------+-----------------+-----------------+
+
+
+Encoding Type:  One-Hot
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |mp2|cpu:cpu|cpu_control:cpu_control|state                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;
++------------------+---------------+---------------+---------------+---------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+-------------+--------------+--------------+--------------+--------------+-----------------+------------------+------------+-------------+-------------+-------------+--------------+--------------+--------------+--------------+
+; Name             ; state.s_trap4 ; state.s_trap3 ; state.s_trap2 ; state.s_trap1 ; state.s_sti4 ; state.s_sti3 ; state.s_sti2 ; state.s_sti1 ; state.s_stb3 ; state.s_stb2 ; state.s_stb1 ; state.s_shf ; state.s_ldi4 ; state.s_ldi3 ; state.s_ldi2 ; state.s_ldi1 ; state.s_ldb3 ; state.s_ldb2 ; state.s_ldb1 ; state.s_jsr3 ; state.s_jsr2 ; state.s_jsr1 ; state.s_jmp ; state.s_lea ; state.s_str2 ; state.s_str1 ; state.s_ldr2 ; state.s_ldr1 ; state.calc_addr ; state.s_br_taken ; state.s_br ; state.s_not ; state.s_and ; state.s_add ; state.decode ; state.fetch3 ; state.fetch2 ; state.fetch1 ;
++------------------+---------------+---------------+---------------+---------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+-------------+--------------+--------------+--------------+--------------+-----------------+------------------+------------+-------------+-------------+-------------+--------------+--------------+--------------+--------------+
+; state.fetch1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ;
+; state.fetch2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 1            ; 1            ;
+; state.fetch3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 1            ; 0            ; 1            ;
+; state.decode     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 1            ; 0            ; 0            ; 1            ;
+; state.s_add      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 1           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_and      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 1           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_not      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 1           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_br       ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 1          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_br_taken ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 1                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.calc_addr  ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 1               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldr1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldr2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 1            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_str1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 1            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_str2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 1            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_lea      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 1           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_jmp      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_jsr1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_jsr2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_jsr3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldb1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldb2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldb3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldi1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldi2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldi3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_ldi4     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_shf      ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_stb1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_stb2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_stb3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_sti1     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_sti2     ; 0             ; 0             ; 0             ; 0             ; 0            ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_sti3     ; 0             ; 0             ; 0             ; 0             ; 0            ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_sti4     ; 0             ; 0             ; 0             ; 0             ; 1            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_trap1    ; 0             ; 0             ; 0             ; 1             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_trap2    ; 0             ; 0             ; 1             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_trap3    ; 0             ; 1             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
+; state.s_trap4    ; 1             ; 0             ; 0             ; 0             ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0            ; 0           ; 0           ; 0            ; 0            ; 0            ; 0            ; 0               ; 0                ; 0          ; 0           ; 0           ; 0           ; 0            ; 0            ; 0            ; 1            ;
++------------------+---------------+---------------+---------------+---------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+-------------+-------------+--------------+--------------+--------------+--------------+-----------------+------------------+------------+-------------+-------------+-------------+--------------+--------------+--------------+--------------+
+
+
++-----------------------------------------------------------------------+
+; Registers Removed During Synthesis                                    ;
++--------------------------------------------------+--------------------+
+; Register name                                    ; Reason for Removal ;
++--------------------------------------------------+--------------------+
+; cache:cache|cache_control:cache_control|state~4  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~5  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~6  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~7  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~8  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~9  ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~10 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~11 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~12 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~13 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~14 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~15 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~16 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~17 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~18 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~19 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~20 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~21 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~22 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~23 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~24 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~25 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~26 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~27 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~28 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~29 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~30 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~31 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~32 ; Lost fanout        ;
+; cache:cache|cache_control:cache_control|state~33 ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~2          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~3          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~4          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~5          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~6          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~7          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~8          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~9          ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~10         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~11         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~12         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~13         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~14         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~15         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~16         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~17         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~18         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~19         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~20         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~21         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~22         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~23         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~24         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~25         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~26         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~27         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~28         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~29         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~30         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~31         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~32         ; Lost fanout        ;
+; cpu:cpu|cpu_control:cpu_control|state~33         ; Lost fanout        ;
+; Total Number of Removed Registers = 62           ;                    ;
++--------------------------------------------------+--------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 2468  ;
+; Number of registers using Synchronous Clear  ; 8     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 2418  ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                     ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+; 4:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; Yes        ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:pc|data[8]           ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; Yes        ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:mar|data[0]          ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 24 ALUTs             ; 0 ALUTs                ; Yes        ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:mar|data[1]          ;
+; 9:1                ; 15 bits   ; 90 ALUTs      ; 90 ALUTs             ; 0 ALUTs                ; Yes        ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|register:mdr|data[2]          ;
+; 4:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux4:addressmux|Mux2  ;
+; 3:1                ; 2 bits    ; 4 ALUTs       ; 4 ALUTs              ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_control:cache_control|dataarr0_write          ;
+; 3:1                ; 2 bits    ; 4 ALUTs       ; 4 ALUTs              ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_control:cache_control|mem_resp                ;
+; 3:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:alumux|Mux5              ;
+; 3:1                ; 2 bits    ; 4 ALUTs       ; 4 ALUTs              ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|ShiftRight0           ;
+; 3:1                ; 4 bits    ; 8 ALUTs       ; 8 ALUTs              ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|ShiftLeft0            ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[123] ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[104] ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[91]  ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[76]  ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[57]  ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[41]  ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[26]  ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[15]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 24 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:regfilemux|Mux1          ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[112] ;
+; 5:1                ; 7 bits    ; 21 ALUTs      ; 14 ALUTs             ; 7 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[103] ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[81]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[69]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[55]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[33]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[21]  ;
+; 5:1                ; 8 bits    ; 24 ALUTs      ; 16 ALUTs             ; 8 ALUTs                ; No         ; |mp2|cache:cache|cache_datapath:cache_datapath|mux2:datainmux|f[7]   ;
+; 7:1                ; 7 bits    ; 28 ALUTs      ; 28 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|mux4:regfilemux|Mux8          ;
+; 6:1                ; 2 bits    ; 8 ALUTs       ; 6 ALUTs              ; 2 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_control:cpu_control|Selector32                      ;
+; 14:1               ; 2 bits    ; 18 ALUTs      ; 16 ALUTs             ; 2 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|Selector6             ;
+; 16:1               ; 2 bits    ; 20 ALUTs      ; 20 ALUTs             ; 0 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|Selector1             ;
+; 15:1               ; 2 bits    ; 20 ALUTs      ; 18 ALUTs             ; 2 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|Selector14            ;
+; 17:1               ; 2 bits    ; 22 ALUTs      ; 20 ALUTs             ; 2 ALUTs                ; No         ; |mp2|cpu:cpu|cpu_datapath:cpu_datapath|alu:alu|Selector10            ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:pcmux ;
++----------------+-------+------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                             ;
++----------------+-------+------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                   ;
++----------------+-------+------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:pcoffsetmux ;
++----------------+-------+------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                   ;
++----------------+-------+------------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                         ;
++----------------+-------+------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:pc ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:storemux ;
++----------------+-------+---------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                ;
++----------------+-------+---------------------------------------------------------------------+
+; width          ; 3     ; Signed Integer                                                      ;
++----------------+-------+---------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:regfilemux ;
++----------------+-------+-----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                  ;
++----------------+-------+-----------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                        ;
++----------------+-------+-----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:cc ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 3     ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:loadmux ;
++----------------+-------+--------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                               ;
++----------------+-------+--------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                     ;
++----------------+-------+--------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj11 ;
++----------------+-------+-----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                            ;
++----------------+-------+-----------------------------------------------------------------+
+; width          ; 11    ; Signed Integer                                                  ;
++----------------+-------+-----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj9 ;
++----------------+-------+----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                           ;
++----------------+-------+----------------------------------------------------------------+
+; width          ; 9     ; Signed Integer                                                 ;
++----------------+-------+----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adj:adj6 ;
++----------------+-------+----------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                           ;
++----------------+-------+----------------------------------------------------------------+
+; width          ; 6     ; Signed Integer                                                 ;
++----------------+-------+----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:imm5_sext ;
++----------------+-------+----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                 ;
++----------------+-------+----------------------------------------------------------------------+
+; width          ; 5     ; Signed Integer                                                       ;
++----------------+-------+----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:imm4_sext ;
++----------------+-------+----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                 ;
++----------------+-------+----------------------------------------------------------------------+
+; width          ; 4     ; Signed Integer                                                       ;
++----------------+-------+----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|sext:offset6_sext ;
++----------------+-------+-------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                    ;
++----------------+-------+-------------------------------------------------------------------------+
+; width          ; 6     ; Signed Integer                                                          ;
++----------------+-------+-------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|plus2:plus2 ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:marmux ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:mar ;
++----------------+-------+--------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                               ;
++----------------+-------+--------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                     ;
++----------------+-------+--------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:mdrmux ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|register:mdr ;
++----------------+-------+--------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                               ;
++----------------+-------+--------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                     ;
++----------------+-------+--------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux4:alumux ;
++----------------+-------+-------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                              ;
++----------------+-------+-------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                    ;
++----------------+-------+-------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|zext:zextmem_low ;
++----------------+-------+------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                   ;
++----------------+-------+------------------------------------------------------------------------+
+; width          ; 8     ; Signed Integer                                                         ;
++----------------+-------+------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|zext:zextmem_high ;
++----------------+-------+-------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                    ;
++----------------+-------+-------------------------------------------------------------------------+
+; width          ; 8     ; Signed Integer                                                          ;
++----------------+-------+-------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|adjzext:trapzext ;
++----------------+-------+------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                   ;
++----------------+-------+------------------------------------------------------------------------+
+; width          ; 8     ; Signed Integer                                                         ;
++----------------+-------+------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu:cpu|cpu_datapath:cpu_datapath|mux2:maradjmux ;
++----------------+-------+----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                 ;
++----------------+-------+----------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                       ;
++----------------+-------+----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:validarr0 ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 1     ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:tagarr0 ;
++----------------+-------+-----------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                        ;
++----------------+-------+-----------------------------------------------------------------------------+
+; width          ; 9     ; Signed Integer                                                              ;
++----------------+-------+-----------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dataarr0 ;
++----------------+-------+------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                         ;
++----------------+-------+------------------------------------------------------------------------------+
+; width          ; 128   ; Signed Integer                                                               ;
++----------------+-------+------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dirtyarr0 ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 1     ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:validarr1 ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 1     ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:tagarr1 ;
++----------------+-------+-----------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                        ;
++----------------+-------+-----------------------------------------------------------------------------+
+; width          ; 9     ; Signed Integer                                                              ;
++----------------+-------+-----------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dataarr1 ;
++----------------+-------+------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                         ;
++----------------+-------+------------------------------------------------------------------------------+
+; width          ; 128   ; Signed Integer                                                               ;
++----------------+-------+------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:dirtyarr1 ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 1     ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|array:lruarr ;
++----------------+-------+----------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                       ;
++----------------+-------+----------------------------------------------------------------------------+
+; width          ; 1     ; Signed Integer                                                             ;
++----------------+-------+----------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:datawaymux ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 128   ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:datainmux ;
++----------------+-------+------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                         ;
++----------------+-------+------------------------------------------------------------------------------+
+; width          ; 128   ; Signed Integer                                                               ;
++----------------+-------+------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux8:datawordmux ;
++----------------+-------+--------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                           ;
++----------------+-------+--------------------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                                 ;
++----------------+-------+--------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux4:addressmux ;
++----------------+-------+-------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                          ;
++----------------+-------+-------------------------------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                                                ;
++----------------+-------+-------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cache:cache|cache_datapath:cache_datapath|mux2:pmemwritemux ;
++----------------+-------+---------------------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                            ;
++----------------+-------+---------------------------------------------------------------------------------+
+; width          ; 128   ; Signed Integer                                                                  ;
++----------------+-------+---------------------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|mux4:addressmux" ;
++---------+-------+----------+----------------------------------------------------------+
+; Port    ; Type  ; Severity ; Details                                                  ;
++---------+-------+----------+----------------------------------------------------------+
+; b[3..0] ; Input ; Info     ; Stuck at GND                                             ;
+; c[3..0] ; Input ; Info     ; Stuck at GND                                             ;
+; d       ; Input ; Info     ; Explicitly unconnected                                   ;
++---------+-------+----------+----------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|array:validarr1" ;
++--------+-------+----------+-----------------------------------------------------------+
+; Port   ; Type  ; Severity ; Details                                                   ;
++--------+-------+----------+-----------------------------------------------------------+
+; datain ; Input ; Info     ; Stuck at VCC                                              ;
++--------+-------+----------+-----------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cache:cache|cache_datapath:cache_datapath|array:validarr0" ;
++--------+-------+----------+-----------------------------------------------------------+
+; Port   ; Type  ; Severity ; Details                                                   ;
++--------+-------+----------+-----------------------------------------------------------+
+; datain ; Input ; Info     ; Stuck at VCC                                              ;
++--------+-------+----------+-----------------------------------------------------------+
+
+
++----------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu:cpu|cpu_datapath:cpu_datapath|mux4:loadmux" ;
++------+-------+----------+--------------------------------------------------+
+; Port ; Type  ; Severity ; Details                                          ;
++------+-------+----------+--------------------------------------------------+
+; d    ; Input ; Info     ; Explicitly unconnected                           ;
++------+-------+----------+--------------------------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:06     ;
++----------------+--------------+
+
+
++-------------------------------+
+; Analysis & Synthesis Messages ;
++-------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 32-bit Analysis & Synthesis
+    Info: Version 13.1.4 Build 182 03/12/2014 SJ Full Version
+    Info: Processing started: Tue Oct  6 20:42:26 2015
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off mp2 -c mp2
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (12021): Found 1 design units, including 1 entities, in source file superblockconstructor.sv
+    Info (12023): Found entity 1: superblockconstructor
+Info (12021): Found 1 design units, including 1 entities, in source file mux8.sv
+    Info (12023): Found entity 1: mux8
+Info (12021): Found 1 design units, including 1 entities, in source file physical_memory.sv
+    Info (12023): Found entity 1: physical_memory
+Info (12021): Found 1 design units, including 1 entities, in source file decoder1.sv
+    Info (12023): Found entity 1: decoder1
+Info (12021): Found 1 design units, including 1 entities, in source file array.sv
+    Info (12023): Found entity 1: array
+Info (12021): Found 1 design units, including 1 entities, in source file hitbox.sv
+    Info (12023): Found entity 1: hitbox
+Info (12021): Found 1 design units, including 1 entities, in source file cpu_datapath.sv
+    Info (12023): Found entity 1: cpu_datapath
+Info (12021): Found 1 design units, including 1 entities, in source file cpu_control.sv
+    Info (12023): Found entity 1: cpu_control
+Info (12021): Found 1 design units, including 1 entities, in source file cpu.sv
+    Info (12023): Found entity 1: cpu
+Info (12021): Found 1 design units, including 1 entities, in source file comparator.sv
+    Info (12023): Found entity 1: comparator
+Info (12021): Found 1 design units, including 1 entities, in source file cache_datapath.sv
+    Info (12023): Found entity 1: cache_datapath
+Info (12021): Found 1 design units, including 1 entities, in source file cache_control.sv
+    Info (12023): Found entity 1: cache_control
+Info (12021): Found 1 design units, including 1 entities, in source file cache.sv
+    Info (12023): Found entity 1: cache
+Info (12021): Found 1 design units, including 1 entities, in source file adjzext.sv
+    Info (12023): Found entity 1: adjzext
+Info (12021): Found 1 design units, including 1 entities, in source file zext.sv
+    Info (12023): Found entity 1: zext
+Info (12021): Found 1 design units, including 1 entities, in source file adder.sv
+    Info (12023): Found entity 1: adder
+Info (12021): Found 1 design units, including 1 entities, in source file mux4.sv
+    Info (12023): Found entity 1: mux4
+Info (12021): Found 1 design units, including 1 entities, in source file sext.sv
+    Info (12023): Found entity 1: sext
+Info (12021): Found 1 design units, including 1 entities, in source file mux2.sv
+    Info (12023): Found entity 1: mux2
+Info (12021): Found 1 design units, including 1 entities, in source file nzp_cmp.sv
+    Info (12023): Found entity 1: nzp_cmp
+Info (12021): Found 1 design units, including 0 entities, in source file lc3b_types.sv
+    Info (12022): Found design unit 1: lc3b_types (SystemVerilog)
+Info (12021): Found 1 design units, including 1 entities, in source file adj.sv
+    Info (12023): Found entity 1: adj
+Info (12021): Found 1 design units, including 1 entities, in source file alu.sv
+    Info (12023): Found entity 1: alu
+Info (12021): Found 1 design units, including 1 entities, in source file gencc.sv
+    Info (12023): Found entity 1: gencc
+Info (12021): Found 1 design units, including 1 entities, in source file ir.sv
+    Info (12023): Found entity 1: ir
+Info (12021): Found 1 design units, including 1 entities, in source file mp2.sv
+    Info (12023): Found entity 1: mp2
+Info (12021): Found 1 design units, including 1 entities, in source file plus2.sv
+    Info (12023): Found entity 1: plus2
+Info (12021): Found 1 design units, including 1 entities, in source file regfile.sv
+    Info (12023): Found entity 1: regfile
+Info (12021): Found 1 design units, including 1 entities, in source file register.sv
+    Info (12023): Found entity 1: register
+Info (12127): Elaborating entity "mp2" for the top level hierarchy
+Info (12128): Elaborating entity "cpu" for hierarchy "cpu:cpu"
+Info (12128): Elaborating entity "cpu_datapath" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath"
+Info (12128): Elaborating entity "mux4" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|mux4:pcmux"
+Info (12128): Elaborating entity "mux2" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|mux2:pcoffsetmux"
+Info (12128): Elaborating entity "register" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|register:pc"
+Info (12128): Elaborating entity "mux2" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|mux2:storemux"
+Info (12128): Elaborating entity "regfile" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|regfile:regfile"
+Info (12128): Elaborating entity "gencc" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|gencc:gencc"
+Info (12128): Elaborating entity "register" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|register:cc"
+Info (12128): Elaborating entity "nzp_cmp" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|nzp_cmp:ccc_comp"
+Info (12128): Elaborating entity "ir" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|ir:ir"
+Info (12128): Elaborating entity "adj" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|adj:adj11"
+Info (12128): Elaborating entity "adj" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|adj:adj9"
+Info (12128): Elaborating entity "adj" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|adj:adj6"
+Info (12128): Elaborating entity "sext" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|sext:imm5_sext"
+Info (12128): Elaborating entity "sext" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|sext:imm4_sext"
+Info (12128): Elaborating entity "sext" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|sext:offset6_sext"
+Info (12128): Elaborating entity "adder" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|adder:stb_add"
+Info (12128): Elaborating entity "plus2" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|plus2:plus2"
+Info (12128): Elaborating entity "alu" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|alu:alu"
+Info (12128): Elaborating entity "zext" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|zext:zextmem_low"
+Info (12128): Elaborating entity "adjzext" for hierarchy "cpu:cpu|cpu_datapath:cpu_datapath|adjzext:trapzext"
+Info (12128): Elaborating entity "cpu_control" for hierarchy "cpu:cpu|cpu_control:cpu_control"
+Info (12128): Elaborating entity "cache" for hierarchy "cache:cache"
+Info (12128): Elaborating entity "cache_control" for hierarchy "cache:cache|cache_control:cache_control"
+Info (12128): Elaborating entity "cache_datapath" for hierarchy "cache:cache|cache_datapath:cache_datapath"
+Info (12128): Elaborating entity "array" for hierarchy "cache:cache|cache_datapath:cache_datapath|array:validarr0"
+Info (12128): Elaborating entity "array" for hierarchy "cache:cache|cache_datapath:cache_datapath|array:tagarr0"
+Info (12128): Elaborating entity "array" for hierarchy "cache:cache|cache_datapath:cache_datapath|array:dataarr0"
+Info (12128): Elaborating entity "mux2" for hierarchy "cache:cache|cache_datapath:cache_datapath|mux2:datawaymux"
+Info (12128): Elaborating entity "mux8" for hierarchy "cache:cache|cache_datapath:cache_datapath|mux8:datawordmux"
+Info (12128): Elaborating entity "superblockconstructor" for hierarchy "cache:cache|cache_datapath:cache_datapath|superblockconstructor:superblockconstructor"
+Info (12128): Elaborating entity "hitbox" for hierarchy "cache:cache|cache_datapath:cache_datapath|hitbox:hitbox"
+Info (276014): Found 10 instances of uninferred RAM logic
+    Info (276004): RAM logic "cache:cache|cache_datapath:cache_datapath|array:lruarr|data" is uninferred due to inappropriate RAM size
+    Info (276006): RAM logic "cache:cache|cache_datapath:cache_datapath|array:tagarr0|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+    Info (276006): RAM logic "cache:cache|cache_datapath:cache_datapath|array:tagarr1|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+    Info (276006): RAM logic "cache:cache|cache_datapath:cache_datapath|array:dataarr1|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+    Info (276006): RAM logic "cache:cache|cache_datapath:cache_datapath|array:dataarr0|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+    Info (276004): RAM logic "cache:cache|cache_datapath:cache_datapath|array:validarr0|data" is uninferred due to inappropriate RAM size
+    Info (276004): RAM logic "cache:cache|cache_datapath:cache_datapath|array:validarr1|data" is uninferred due to inappropriate RAM size
+    Info (276004): RAM logic "cache:cache|cache_datapath:cache_datapath|array:dirtyarr0|data" is uninferred due to inappropriate RAM size
+    Info (276004): RAM logic "cache:cache|cache_datapath:cache_datapath|array:dirtyarr1|data" is uninferred due to inappropriate RAM size
+    Info (276006): RAM logic "cpu:cpu|cpu_datapath:cpu_datapath|regfile:regfile|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 62 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Info (21057): Implemented 4275 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 130 input pins
+    Info (21059): Implemented 146 output pins
+    Info (21061): Implemented 3999 logic cells
+Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 463 megabytes
+    Info: Processing ended: Tue Oct  6 20:42:41 2015
+    Info: Elapsed time: 00:00:15
+    Info: Total CPU time (on all processors): 00:00:08
+
+
